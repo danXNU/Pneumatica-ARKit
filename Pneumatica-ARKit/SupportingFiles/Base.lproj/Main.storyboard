@@ -21,18 +21,49 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" sceneName="ship.scn" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                             </arscnView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="6LH-F6-AdW">
+                                <rect key="frame" x="120" y="797" width="174" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40o-Mp-8hC">
+                                        <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
+                                        <state key="normal" title="Place"/>
+                                        <connections>
+                                            <action selector="placeButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Xsv-SP-x1b"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xsm-HE-x7N">
+                                        <rect key="frame" x="72" y="0.0" width="38" height="30"/>
+                                        <state key="normal" title="Move"/>
+                                        <connections>
+                                            <action selector="moveButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="KN3-JG-5iv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d5h-jM-xtb">
+                                        <rect key="frame" x="144" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="Edit"/>
+                                        <connections>
+                                            <action selector="editButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Ajj-2P-9zI"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="6LH-F6-AdW" secondAttribute="bottom" constant="35" id="UU6-NS-m3s"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
+                            <constraint firstItem="6LH-F6-AdW" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="xQY-N8-B1J"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="wh2-bI-RQe"/>
+                        <outletCollection property="editModesButtons" destination="40o-Mp-8hC" collectionClass="NSMutableArray" id="Kvp-Kf-Ojq"/>
+                        <outletCollection property="editModesButtons" destination="Xsm-HE-x7N" collectionClass="NSMutableArray" id="KUh-2S-X0w"/>
+                        <outletCollection property="editModesButtons" destination="d5h-jM-xtb" collectionClass="NSMutableArray" id="Eo0-DW-lzt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

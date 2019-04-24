@@ -9,13 +9,33 @@ import UIKit
 import SceneKit
 import ARKit
 
+enum EditMode : String {
+    case moveMode = "Move"
+    case editSettingsMode = "Edit"
+    case placeMode = "Place"
+}
+
 class ViewController: UIViewController {
     // MARK: - IBOutlets
 
     @IBOutlet weak var sceneView: ARSCNView!
+    @IBOutlet var editModesButtons: [UIButton]!
+    
+    var editMode : EditMode = .placeMode {
+        didSet {
+            guard let modesButton = self.editModesButtons else { return }
+            for button in modesButton {
+                if button.currentTitle == editMode.rawValue {
+                    button.titleLabel?.backgroundColor = .green
+                } else {
+                    button.titleLabel?.backgroundColor = .yellow
+                }
+            }
+        }
+    }
     
     var virtualObjects : [ValvolaConformance] = []
-    var selectedValvola: ValvolaConformance?
+    var selectedValvola: ValvolaConformance? { didSet { highlight(valvola: selectedValvola) }  }
     var selectedType: ValvolaConformance.Type?
     
     var tableView: UITableView!
@@ -60,6 +80,17 @@ class ViewController: UIViewController {
         sceneView.session.pause()
     }
     
+    @IBAction func moveButtonTapped(_ sender: UIButton) {
+        editMode = .moveMode
+    }
+    
+    @IBAction func placeButtonTapped(_ sender: UIButton) {
+        editMode = .placeMode
+    }
+    
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        editMode = .editSettingsMode
+    }
     
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         showTableView()
@@ -69,19 +100,50 @@ class ViewController: UIViewController {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: sceneView)
         
-        let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
-        if let hitResult = result.last {
-            let transform = SCNMatrix4.init(hitResult.worldTransform)
-            let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
-            
-            if let type = self.selectedType {
-                place(valvola: type, at: hitPositionVector)
+        switch editMode {
+        case .moveMode:
+            let results = sceneView.hitTest(touchLocation, options: nil)
+            guard let res = results.first else { break }
+            guard let selectedObject = getValvola(from: res.node) else { break }
+            self.selectedValvola = selectedObject
+        case .placeMode:
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            if let hitResult = result.last {
+                let transform = SCNMatrix4.init(hitResult.worldTransform)
+                let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+                
+                if let type = self.selectedType {
+                    place(valvola: type, at: hitPositionVector)
+                }
             }
+        case .editSettingsMode:
+            break
         }
-        
         hideTableView()
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let touchLocation = touch.location(in: sceneView)
+        
+        switch editMode {
+        case .moveMode:
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            if let hitResult = result.last {
+                let transform = SCNMatrix4.init(hitResult.worldTransform)
+                let positionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+                
+                if let selectedVal = selectedValvola {
+                    move(valvola: selectedVal, at: positionVector)
+                }
+            }
+        case .placeMode:
+            break
+        case .editSettingsMode:
+            break
+            
+        }
+    }
     
     func place(valvola: ValvolaConformance.Type, at position: SCNVector3) {
         if let virtualObject = valvola.init() {
@@ -90,6 +152,10 @@ class ViewController: UIViewController {
             self.virtualObjects.append(virtualObject)
             sceneView.scene.rootNode.addChildNode(virtualObject.objectNode)
         }
+    }
+    
+    func move(valvola: ValvolaConformance, at location: SCNVector3) {
+        valvola.objectNode.position = location
     }
     
     func showTableView() {
@@ -108,6 +174,47 @@ class ViewController: UIViewController {
         self.tableView.removeFromSuperview()
     }
     
+    func getValvola(from node: SCNNode) -> ValvolaConformance? {
+        for object in self.virtualObjects {
+            if object.objectNode == node {
+                return object
+            }
+        }
+        return nil
+    }
+    
+    func getInputOutput(from node: SCNNode) -> IOConformance? {
+        for object in self.virtualObjects {
+            for io in object.ios {
+                if io.ioNode == node {
+                    return io
+                }
+            }
+        }
+        return nil
+    }
+    
+    func highlight(valvola: ValvolaConformance?) {
+        guard let val = valvola else { return }
+        let material = val.objectNode.geometry?.firstMaterial
+        
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = 0.5
+        
+        SCNTransaction.completionBlock = {
+            SCNTransaction.begin()
+            SCNTransaction.animationDuration = 0.5
+            
+            material?.emission.contents = UIColor.black
+            
+            SCNTransaction.commit()
+        }
+        
+        material?.emission.contents = UIColor.red
+        
+        SCNTransaction.commit()
+    }
+    
 }
 
 extension ViewController: ARSCNViewDelegate {
@@ -124,6 +231,10 @@ extension ViewController: UITableViewDelegate {
             self.selectedType = source.getType(at: indexPath.row)
         }
         hideTableView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }
 

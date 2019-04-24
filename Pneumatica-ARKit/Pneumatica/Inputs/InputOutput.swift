@@ -46,7 +46,7 @@ class InputOutput: IOConformance, Hashable {
         self.ioNode = node
         
         //da rimuovere
-        self.ioNode.geometry?.firstMaterial?.transparency = 0.3
+//        self.ioNode.geometry?.firstMaterial?.transparency = 0.3
     }
     
     func update() {
