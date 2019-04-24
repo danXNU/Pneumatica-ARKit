@@ -40,6 +40,8 @@ class Line: Equatable {
         let startPosition = firstIO.ioNode.worldPosition
         let endPosition = secondIO.ioNode.worldPosition
         
+        let zPos = startPosition.z
+        
         var currentPosition = startPosition
         
         var allVectors: [(SCNVector3, SCNVector3)] = []
@@ -47,9 +49,9 @@ class Line: Equatable {
         
         let firstSegmentLenght = abs(startPosition.y - endPosition.y) / 2
         if startPosition.y > endPosition.y {
-            currentPosition = SCNVector3(currentPosition.x, currentPosition.y - firstSegmentLenght, 0)
+            currentPosition = SCNVector3(currentPosition.x, currentPosition.y - firstSegmentLenght, zPos)
         } else {
-            currentPosition = SCNVector3(currentPosition.x, currentPosition.y + firstSegmentLenght, 0)
+            currentPosition = SCNVector3(currentPosition.x, currentPosition.y + firstSegmentLenght, zPos)
         }
         allVectors.append((startPosition, currentPosition))
         
@@ -57,9 +59,9 @@ class Line: Equatable {
         var temp = currentPosition
         let secondSegmentLenght = abs(currentPosition.x - endPosition.x)
         if currentPosition.x > endPosition.x {
-            currentPosition = SCNVector3(currentPosition.x - secondSegmentLenght, currentPosition.y, 0.0)
+            currentPosition = SCNVector3(currentPosition.x - secondSegmentLenght, currentPosition.y, zPos)
         } else {
-            currentPosition = SCNVector3(currentPosition.x + secondSegmentLenght, currentPosition.y, 0.0)
+            currentPosition = SCNVector3(currentPosition.x + secondSegmentLenght, currentPosition.y, zPos)
         }
         allVectors.append((temp, currentPosition))
         
@@ -67,9 +69,9 @@ class Line: Equatable {
         temp = currentPosition
         let thirdSegmentLenght = abs(currentPosition.y - endPosition.y)
         if currentPosition.y > endPosition.y {
-            currentPosition = SCNVector3(currentPosition.x, currentPosition.y - thirdSegmentLenght, 0)
+            currentPosition = SCNVector3(currentPosition.x, currentPosition.y - thirdSegmentLenght, zPos)
         } else {
-            currentPosition = SCNVector3(currentPosition.x, currentPosition.y + thirdSegmentLenght, 0)
+            currentPosition = SCNVector3(currentPosition.x, currentPosition.y + thirdSegmentLenght, zPos)
         }
         allVectors.append((temp, currentPosition))
         
@@ -79,10 +81,11 @@ class Line: Equatable {
             path.move(to: CGPoint(x: CGFloat(firstV.x), y: CGFloat(firstV.y)))
             path.addLine(to: CGPoint(x: CGFloat(secondV.x), y: CGFloat(secondV.y)))
             
-            let geometry = SCNShape(path: path, extrusionDepth: 0.2)
+            let geometry = SCNShape(path: path, extrusionDepth: 0.005)
             
             geometry.firstMaterial?.diffuse.contents = UIColor.red
             let node = SCNNode(geometry: geometry)
+            node.position.z = zPos
             self.lineNode.addChildNode(node)
         }
     }
