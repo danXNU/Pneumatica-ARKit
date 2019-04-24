@@ -47,13 +47,21 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="PEb-aB-FaV">
+                                <rect key="frame" x="160" y="729" width="94" height="29"/>
+                                <connections>
+                                    <action selector="stpperTapped:" destination="BV1-FR-VrT" eventType="valueChanged" id="WAV-xx-bFg"/>
+                                </connections>
+                            </stepper>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="PEb-aB-FaV" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="BVb-F3-MGN"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="6LH-F6-AdW" secondAttribute="bottom" constant="35" id="UU6-NS-m3s"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
+                            <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="PEb-aB-FaV" secondAttribute="bottom" constant="39" id="qtX-1E-EYe"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
                             <constraint firstItem="6LH-F6-AdW" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="xQY-N8-B1J"/>
                         </constraints>
@@ -61,6 +69,7 @@
                     </view>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="wh2-bI-RQe"/>
+                        <outlet property="sizeStepper" destination="PEb-aB-FaV" id="t0F-lj-F4w"/>
                         <outletCollection property="editModesButtons" destination="40o-Mp-8hC" collectionClass="NSMutableArray" id="Kvp-Kf-Ojq"/>
                         <outletCollection property="editModesButtons" destination="Xsm-HE-x7N" collectionClass="NSMutableArray" id="KUh-2S-X0w"/>
                         <outletCollection property="editModesButtons" destination="d5h-jM-xtb" collectionClass="NSMutableArray" id="Eo0-DW-lzt"/>

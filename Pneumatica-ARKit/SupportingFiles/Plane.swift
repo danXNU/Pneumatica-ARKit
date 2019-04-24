@@ -29,10 +29,12 @@ class Plane: SCNNode {
         guard let meshGeometry = ARSCNPlaneGeometry(device: sceneView.device!)
             else { fatalError("Can't create plane geometry") }
         meshGeometry.update(from: anchor.geometry)
+        meshGeometry.firstMaterial?.transparency = 0.1
         meshNode = SCNNode(geometry: meshGeometry)
         
         // Create a node to visualize the plane's bounding rectangle.
         let extentPlane: SCNPlane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        extentPlane.firstMaterial?.transparency = 0.1
         extentNode = SCNNode(geometry: extentPlane)
         extentNode.simdPosition = anchor.center
         

@@ -20,6 +20,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet var editModesButtons: [UIButton]!
+    @IBOutlet weak var sizeStepper: UIStepper!
     
     var editMode : EditMode = .placeMode {
         didSet {
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
                     button.titleLabel?.backgroundColor = .yellow
                 }
             }
+            self.sizeStepper.isHidden = (editMode != .editSettingsMode)
         }
     }
     
@@ -44,6 +46,8 @@ class ViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.sizeStepper.isHidden = true
         
         let scene = SCNScene(named: "Assets.scnassets/ship.scn")
         self.sceneView.scene = scene!
@@ -96,6 +100,12 @@ class ViewController: UIViewController {
         showTableView()
     }
     
+    @IBAction func stpperTapped(_ sender: UIStepper) {
+        guard let valvola = selectedValvola else { return }
+        let value = Float(sender.value / 100.0)
+        valvola.objectNode.scale = SCNVector3(value, value, value)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: sceneView)
@@ -117,7 +127,13 @@ class ViewController: UIViewController {
                 }
             }
         case .editSettingsMode:
-            break
+            let results = sceneView.hitTest(touchLocation, options: nil)
+            guard let res = results.first else { break }
+            guard let selectedObject = getValvola(from: res.node) else { break }
+            self.selectedValvola = selectedObject
+            sizeStepper.value = Double(selectedObject.objectNode.scale.y * 100)
+            
+            //also, set the edit view
         }
         hideTableView()
     }
