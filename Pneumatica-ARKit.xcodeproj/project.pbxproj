@@ -13,6 +13,25 @@
 		DB9DD68E2270871700EF7EC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD68C2270871700EF7EC8 /* Main.storyboard */; };
 		DB9DD6902270871800EF7EC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD68F2270871800EF7EC8 /* Assets.xcassets */; };
 		DB9DD6932270871800EF7EC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD6912270871800EF7EC8 /* LaunchScreen.storyboard */; };
+		DBB7932222708ACA007EB614 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931122708ACA007EB614 /* Line.swift */; };
+		DBB7932322708ACA007EB614 /* AND.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931322708ACA007EB614 /* AND.swift */; };
+		DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931422708ACA007EB614 /* Pulsante.swift */; };
+		DBB7932522708ACA007EB614 /* CinqueDueBistabile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931522708ACA007EB614 /* CinqueDueBistabile.swift */; };
+		DBB7932622708ACA007EB614 /* TreDueMonostabileNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931622708ACA007EB614 /* TreDueMonostabileNC.swift */; };
+		DBB7932722708ACA007EB614 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931722708ACA007EB614 /* Timer.swift */; };
+		DBB7932822708ACA007EB614 /* GruppooFRL.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931822708ACA007EB614 /* GruppooFRL.swift */; };
+		DBB7932922708ACA007EB614 /* TreDueBistabile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931922708ACA007EB614 /* TreDueBistabile.swift */; };
+		DBB7932A22708ACA007EB614 /* Cilindro.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931A22708ACA007EB614 /* Cilindro.swift */; };
+		DBB7932B22708ACA007EB614 /* Finecorsa.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931B22708ACA007EB614 /* Finecorsa.swift */; };
+		DBB7932C22708ACA007EB614 /* OR.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931C22708ACA007EB614 /* OR.swift */; };
+		DBB7932D22708ACA007EB614 /* CinqueDueMonostabili.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931D22708ACA007EB614 /* CinqueDueMonostabili.swift */; };
+		DBB7932E22708ACA007EB614 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931E22708ACA007EB614 /* Protocols.swift */; };
+		DBB7932F22708ACA007EB614 /* PressableInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7932022708ACA007EB614 /* PressableInput.swift */; };
+		DBB7933022708ACA007EB614 /* InputOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7932122708ACA007EB614 /* InputOutput.swift */; };
+		DBB7933422708B2B007EB614 /* hp3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBB7933222708B2B007EB614 /* hp3.jpg */; };
+		DBB7933522708B2B007EB614 /* hp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBB7933322708B2B007EB614 /* hp.jpg */; };
+		DBB7933722708B57007EB614 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7933622708B57007EB614 /* Plane.swift */; };
+		DBB7933922708BB9007EB614 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7933822708BB9007EB614 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +43,25 @@
 		DB9DD68F2270871800EF7EC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB9DD6922270871800EF7EC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB9DD6942270871800EF7EC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DBB7931122708ACA007EB614 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		DBB7931322708ACA007EB614 /* AND.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AND.swift; sourceTree = "<group>"; };
+		DBB7931422708ACA007EB614 /* Pulsante.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsante.swift; sourceTree = "<group>"; };
+		DBB7931522708ACA007EB614 /* CinqueDueBistabile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CinqueDueBistabile.swift; sourceTree = "<group>"; };
+		DBB7931622708ACA007EB614 /* TreDueMonostabileNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreDueMonostabileNC.swift; sourceTree = "<group>"; };
+		DBB7931722708ACA007EB614 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		DBB7931822708ACA007EB614 /* GruppooFRL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GruppooFRL.swift; sourceTree = "<group>"; };
+		DBB7931922708ACA007EB614 /* TreDueBistabile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreDueBistabile.swift; sourceTree = "<group>"; };
+		DBB7931A22708ACA007EB614 /* Cilindro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cilindro.swift; sourceTree = "<group>"; };
+		DBB7931B22708ACA007EB614 /* Finecorsa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Finecorsa.swift; sourceTree = "<group>"; };
+		DBB7931C22708ACA007EB614 /* OR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OR.swift; sourceTree = "<group>"; };
+		DBB7931D22708ACA007EB614 /* CinqueDueMonostabili.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CinqueDueMonostabili.swift; sourceTree = "<group>"; };
+		DBB7931E22708ACA007EB614 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		DBB7932022708ACA007EB614 /* PressableInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PressableInput.swift; sourceTree = "<group>"; };
+		DBB7932122708ACA007EB614 /* InputOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputOutput.swift; sourceTree = "<group>"; };
+		DBB7933222708B2B007EB614 /* hp3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hp3.jpg; sourceTree = "<group>"; };
+		DBB7933322708B2B007EB614 /* hp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hp.jpg; sourceTree = "<group>"; };
+		DBB7933622708B57007EB614 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		DBB7933822708BB9007EB614 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +94,82 @@
 		DB9DD6852270871700EF7EC8 /* Pneumatica-ARKit */ = {
 			isa = PBXGroup;
 			children = (
-				DB9DD6862270871700EF7EC8 /* AppDelegate.swift */,
+				DBDC8922227087470092E4A5 /* SupportingFiles */,
+				DBB7933122708B2B007EB614 /* Textures */,
 				DB9DD6882270871700EF7EC8 /* art.scnassets */,
-				DB9DD68A2270871700EF7EC8 /* ViewController.swift */,
-				DB9DD68C2270871700EF7EC8 /* Main.storyboard */,
 				DB9DD68F2270871800EF7EC8 /* Assets.xcassets */,
-				DB9DD6912270871800EF7EC8 /* LaunchScreen.storyboard */,
-				DB9DD6942270871800EF7EC8 /* Info.plist */,
+				DBB7933822708BB9007EB614 /* Utilities.swift */,
+				DBB7930F22708ACA007EB614 /* Pneumatica */,
+				DB9DD68A2270871700EF7EC8 /* ViewController.swift */,
 			);
 			path = "Pneumatica-ARKit";
+			sourceTree = "<group>";
+		};
+		DBB7930F22708ACA007EB614 /* Pneumatica */ = {
+			isa = PBXGroup;
+			children = (
+				DBB7931E22708ACA007EB614 /* Protocols.swift */,
+				DBB7931022708ACA007EB614 /* Bus */,
+				DBB7931222708ACA007EB614 /* Objects */,
+				DBB7931F22708ACA007EB614 /* Inputs */,
+			);
+			path = Pneumatica;
+			sourceTree = "<group>";
+		};
+		DBB7931022708ACA007EB614 /* Bus */ = {
+			isa = PBXGroup;
+			children = (
+				DBB7931122708ACA007EB614 /* Line.swift */,
+			);
+			path = Bus;
+			sourceTree = "<group>";
+		};
+		DBB7931222708ACA007EB614 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				DBB7931322708ACA007EB614 /* AND.swift */,
+				DBB7931422708ACA007EB614 /* Pulsante.swift */,
+				DBB7931522708ACA007EB614 /* CinqueDueBistabile.swift */,
+				DBB7931622708ACA007EB614 /* TreDueMonostabileNC.swift */,
+				DBB7931722708ACA007EB614 /* Timer.swift */,
+				DBB7931822708ACA007EB614 /* GruppooFRL.swift */,
+				DBB7931922708ACA007EB614 /* TreDueBistabile.swift */,
+				DBB7931A22708ACA007EB614 /* Cilindro.swift */,
+				DBB7931B22708ACA007EB614 /* Finecorsa.swift */,
+				DBB7931C22708ACA007EB614 /* OR.swift */,
+				DBB7931D22708ACA007EB614 /* CinqueDueMonostabili.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		DBB7931F22708ACA007EB614 /* Inputs */ = {
+			isa = PBXGroup;
+			children = (
+				DBB7932022708ACA007EB614 /* PressableInput.swift */,
+				DBB7932122708ACA007EB614 /* InputOutput.swift */,
+			);
+			path = Inputs;
+			sourceTree = "<group>";
+		};
+		DBB7933122708B2B007EB614 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				DBB7933222708B2B007EB614 /* hp3.jpg */,
+				DBB7933322708B2B007EB614 /* hp.jpg */,
+			);
+			path = Textures;
+			sourceTree = "<group>";
+		};
+		DBDC8922227087470092E4A5 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				DBB7933622708B57007EB614 /* Plane.swift */,
+				DB9DD6912270871800EF7EC8 /* LaunchScreen.storyboard */,
+				DB9DD6942270871800EF7EC8 /* Info.plist */,
+				DB9DD68C2270871700EF7EC8 /* Main.storyboard */,
+				DB9DD6862270871700EF7EC8 /* AppDelegate.swift */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +230,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBB7933422708B2B007EB614 /* hp3.jpg in Resources */,
+				DBB7933522708B2B007EB614 /* hp.jpg in Resources */,
 				DB9DD6892270871700EF7EC8 /* art.scnassets in Resources */,
 				DB9DD6932270871800EF7EC8 /* LaunchScreen.storyboard in Resources */,
 				DB9DD6902270871800EF7EC8 /* Assets.xcassets in Resources */,
@@ -139,8 +246,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBB7932F22708ACA007EB614 /* PressableInput.swift in Sources */,
+				DBB7932E22708ACA007EB614 /* Protocols.swift in Sources */,
+				DBB7932222708ACA007EB614 /* Line.swift in Sources */,
+				DBB7932D22708ACA007EB614 /* CinqueDueMonostabili.swift in Sources */,
 				DB9DD68B2270871700EF7EC8 /* ViewController.swift in Sources */,
+				DBB7932C22708ACA007EB614 /* OR.swift in Sources */,
 				DB9DD6872270871700EF7EC8 /* AppDelegate.swift in Sources */,
+				DBB7932A22708ACA007EB614 /* Cilindro.swift in Sources */,
+				DBB7932322708ACA007EB614 /* AND.swift in Sources */,
+				DBB7932922708ACA007EB614 /* TreDueBistabile.swift in Sources */,
+				DBB7933722708B57007EB614 /* Plane.swift in Sources */,
+				DBB7933022708ACA007EB614 /* InputOutput.swift in Sources */,
+				DBB7932622708ACA007EB614 /* TreDueMonostabileNC.swift in Sources */,
+				DBB7933922708BB9007EB614 /* Utilities.swift in Sources */,
+				DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */,
+				DBB7932B22708ACA007EB614 /* Finecorsa.swift in Sources */,
+				DBB7932822708ACA007EB614 /* GruppooFRL.swift in Sources */,
+				DBB7932522708ACA007EB614 /* CinqueDueBistabile.swift in Sources */,
+				DBB7932722708ACA007EB614 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +412,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R779A64KR9;
-				INFOPLIST_FILE = "Pneumatica-ARKit/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Pneumatica-ARKit/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -306,7 +430,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R779A64KR9;
-				INFOPLIST_FILE = "Pneumatica-ARKit/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Pneumatica-ARKit/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
