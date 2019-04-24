@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                             </arscnView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="6LH-F6-AdW">
-                                <rect key="frame" x="120" y="797" width="174" height="30"/>
+                                <rect key="frame" x="80.5" y="797" width="253" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40o-Mp-8hC">
                                         <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
@@ -43,6 +43,13 @@
                                         <state key="normal" title="Edit"/>
                                         <connections>
                                             <action selector="editButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Ajj-2P-9zI"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H7n-FL-N16">
+                                        <rect key="frame" x="208" y="0.0" width="45" height="30"/>
+                                        <state key="normal" title="Circuit"/>
+                                        <connections>
+                                            <action selector="circuitButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="r7N-Xu-rbr"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -73,6 +80,7 @@
                         <outletCollection property="editModesButtons" destination="40o-Mp-8hC" collectionClass="NSMutableArray" id="Kvp-Kf-Ojq"/>
                         <outletCollection property="editModesButtons" destination="Xsm-HE-x7N" collectionClass="NSMutableArray" id="KUh-2S-X0w"/>
                         <outletCollection property="editModesButtons" destination="d5h-jM-xtb" collectionClass="NSMutableArray" id="Eo0-DW-lzt"/>
+                        <outletCollection property="editModesButtons" destination="H7n-FL-N16" collectionClass="NSMutableArray" id="fvL-mu-viI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

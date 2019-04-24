@@ -13,6 +13,7 @@ enum EditMode : String {
     case moveMode = "Move"
     case editSettingsMode = "Edit"
     case placeMode = "Place"
+    case circuitMode = "Circuit"
 }
 
 class ViewController: UIViewController {
@@ -37,11 +38,17 @@ class ViewController: UIViewController {
     }
     
     var virtualObjects : [ValvolaConformance] = []
+    var lines: [Line] = []
     var selectedValvola: ValvolaConformance? { didSet { highlight(valvola: selectedValvola) }  }
     var selectedType: ValvolaConformance.Type?
     
+    var firstSelectedIO: InputOutput?
+    var secondSelectedIO: InputOutput?
+    
     var tableView: UITableView!
     var dataSource: UITableViewDataSource!
+    
+    var needToRedraw: Bool = false
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -96,6 +103,10 @@ class ViewController: UIViewController {
         editMode = .editSettingsMode
     }
     
+    @IBAction func circuitButtonTapped(_ sender: UIButton) {
+        editMode = .circuitMode
+    }
+    
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         showTableView()
     }
@@ -134,6 +145,27 @@ class ViewController: UIViewController {
             sizeStepper.value = Double(selectedObject.objectNode.scale.y * 100)
             
             //also, set the edit view
+        case .circuitMode:
+            let results = sceneView.hitTest(touchLocation, options: nil)
+            guard let res = results.first else { break }
+            guard let selectedIO = getInputOutput(from: res.node) else { break }
+            if let tappableIO = selectedIO as? Tappable {
+                tappableIO.tapped()
+                break
+            } else if let normalIO = selectedIO as? InputOutput {
+                if firstSelectedIO == nil { firstSelectedIO = normalIO }
+                else if secondSelectedIO == nil { secondSelectedIO = normalIO }
+                
+                if let firstIO = firstSelectedIO, let secondIO = secondSelectedIO {
+                    if firstIO.inputsConnected.contains(secondIO) && secondIO.inputsConnected.contains(firstIO) {
+                        removeLine(from: firstIO, to: secondIO)
+                    } else {
+                        createLine(from: firstIO, to: secondIO)
+                    }
+                    firstSelectedIO = nil
+                    secondSelectedIO = nil
+                }
+            }
         }
         hideTableView()
     }
@@ -157,7 +189,8 @@ class ViewController: UIViewController {
             break
         case .editSettingsMode:
             break
-            
+        case .circuitMode:
+            break
         }
     }
     
@@ -172,6 +205,7 @@ class ViewController: UIViewController {
     
     func move(valvola: ValvolaConformance, at location: SCNVector3) {
         valvola.objectNode.position = location
+        needToRedraw = true
     }
     
     func showTableView() {
@@ -231,13 +265,60 @@ class ViewController: UIViewController {
         SCNTransaction.commit()
     }
     
+    func createLine(from firstIO: InputOutput, to secondIO: InputOutput) {
+        let line = Line(from: firstIO, to: secondIO)
+        line.draw()
+        
+        self.lines.append(line)
+        sceneView.scene.rootNode.addChildNode(line.lineNode)
+        
+        firstIO.addWire(to: secondIO)
+    }
+    
+    func removeLine(from firstIO: InputOutput, to secondIO: InputOutput) {
+        let line = lines.first { (line) -> Bool in
+            if line.firstIO == firstIO && line.secondIO == secondIO {
+                return true
+            } else if line.firstIO == secondIO && line.secondIO == firstIO {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        if let lineSelected = line {
+            self.lines.removeAll { (lineInArray) -> Bool in
+                return lineSelected == lineInArray
+            }
+            firstIO.removeWire(secondIO)
+            
+            let removeAction = SCNAction.removeFromParentNode()
+            
+            lineSelected.lineNode.runAction(removeAction)
+        }
+    }
+    
 }
 
 extension ViewController: ARSCNViewDelegate {
 
     // MARK: - Circuit logic
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        for object in self.virtualObjects {
+            object.ios.forEach { $0.update() }
+            object.update()
+        }
         
+        for line in self.lines {
+            line.update()
+        }
+        
+        if needToRedraw {
+            for line in self.lines {
+                line.draw()
+            }
+            needToRedraw = false
+        }
     }
 }
 
