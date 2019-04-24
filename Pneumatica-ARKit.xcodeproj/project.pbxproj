@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB83719D2270C4520051F701 /* BouncyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719B2270C4520051F701 /* BouncyView.swift */; };
+		DB83719E2270C4520051F701 /* BoldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719C2270C4520051F701 /* BoldCell.swift */; };
+		DB8371A02270C4750051F701 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719F2270C4750051F701 /* EditView.swift */; };
+		DB8371A42270C48D0051F701 /* CreationObjectDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8371A22270C48D0051F701 /* CreationObjectDataSource.swift */; };
+		DB8371A72270C75A0051F701 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8371A62270C75A0051F701 /* Extensions.swift */; };
 		DB9DD6872270871700EF7EC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9DD6862270871700EF7EC8 /* AppDelegate.swift */; };
-		DB9DD6892270871700EF7EC8 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD6882270871700EF7EC8 /* art.scnassets */; };
+		DB9DD6892270871700EF7EC8 /* Assets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD6882270871700EF7EC8 /* Assets.scnassets */; };
 		DB9DD68B2270871700EF7EC8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9DD68A2270871700EF7EC8 /* ViewController.swift */; };
 		DB9DD68E2270871700EF7EC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD68C2270871700EF7EC8 /* Main.storyboard */; };
 		DB9DD6902270871800EF7EC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD68F2270871800EF7EC8 /* Assets.xcassets */; };
@@ -35,9 +40,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB83719B2270C4520051F701 /* BouncyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BouncyView.swift; sourceTree = "<group>"; };
+		DB83719C2270C4520051F701 /* BoldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoldCell.swift; sourceTree = "<group>"; };
+		DB83719F2270C4750051F701 /* EditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		DB8371A22270C48D0051F701 /* CreationObjectDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreationObjectDataSource.swift; sourceTree = "<group>"; };
+		DB8371A62270C75A0051F701 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DB9DD6832270871700EF7EC8 /* Pneumatica-ARKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pneumatica-ARKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB9DD6862270871700EF7EC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DB9DD6882270871700EF7EC8 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		DB9DD6882270871700EF7EC8 /* Assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Assets.scnassets; sourceTree = "<group>"; };
 		DB9DD68A2270871700EF7EC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DB9DD68D2270871700EF7EC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DB9DD68F2270871800EF7EC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,6 +85,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB83719A2270C4270051F701 /* UIKitElements */ = {
+			isa = PBXGroup;
+			children = (
+				DB83719F2270C4750051F701 /* EditView.swift */,
+				DB83719C2270C4520051F701 /* BoldCell.swift */,
+				DB83719B2270C4520051F701 /* BouncyView.swift */,
+			);
+			path = UIKitElements;
+			sourceTree = "<group>";
+		};
+		DB8371A12270C48D0051F701 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				DB8371A22270C48D0051F701 /* CreationObjectDataSource.swift */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
 		DB9DD67A2270871700EF7EC8 = {
 			isa = PBXGroup;
 			children = (
@@ -94,11 +122,13 @@
 		DB9DD6852270871700EF7EC8 /* Pneumatica-ARKit */ = {
 			isa = PBXGroup;
 			children = (
+				DB83719A2270C4270051F701 /* UIKitElements */,
 				DBDC8922227087470092E4A5 /* SupportingFiles */,
-				DBB7933122708B2B007EB614 /* Textures */,
-				DB9DD6882270871700EF7EC8 /* art.scnassets */,
+				DB9DD6882270871700EF7EC8 /* Assets.scnassets */,
 				DB9DD68F2270871800EF7EC8 /* Assets.xcassets */,
 				DBB7933822708BB9007EB614 /* Utilities.swift */,
+				DB8371A12270C48D0051F701 /* DataSources */,
+				DBB7933122708B2B007EB614 /* Textures */,
 				DBB7930F22708ACA007EB614 /* Pneumatica */,
 				DB9DD68A2270871700EF7EC8 /* ViewController.swift */,
 			);
@@ -163,6 +193,7 @@
 		DBDC8922227087470092E4A5 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				DB8371A62270C75A0051F701 /* Extensions.swift */,
 				DBB7933622708B57007EB614 /* Plane.swift */,
 				DB9DD6912270871800EF7EC8 /* LaunchScreen.storyboard */,
 				DB9DD6942270871800EF7EC8 /* Info.plist */,
@@ -232,7 +263,7 @@
 			files = (
 				DBB7933422708B2B007EB614 /* hp3.jpg in Resources */,
 				DBB7933522708B2B007EB614 /* hp.jpg in Resources */,
-				DB9DD6892270871700EF7EC8 /* art.scnassets in Resources */,
+				DB9DD6892270871700EF7EC8 /* Assets.scnassets in Resources */,
 				DB9DD6932270871800EF7EC8 /* LaunchScreen.storyboard in Resources */,
 				DB9DD6902270871800EF7EC8 /* Assets.xcassets in Resources */,
 				DB9DD68E2270871700EF7EC8 /* Main.storyboard in Resources */,
@@ -247,6 +278,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBB7932F22708ACA007EB614 /* PressableInput.swift in Sources */,
+				DB83719E2270C4520051F701 /* BoldCell.swift in Sources */,
+				DB8371A02270C4750051F701 /* EditView.swift in Sources */,
 				DBB7932E22708ACA007EB614 /* Protocols.swift in Sources */,
 				DBB7932222708ACA007EB614 /* Line.swift in Sources */,
 				DBB7932D22708ACA007EB614 /* CinqueDueMonostabili.swift in Sources */,
@@ -258,12 +291,15 @@
 				DBB7932922708ACA007EB614 /* TreDueBistabile.swift in Sources */,
 				DBB7933722708B57007EB614 /* Plane.swift in Sources */,
 				DBB7933022708ACA007EB614 /* InputOutput.swift in Sources */,
+				DB8371A42270C48D0051F701 /* CreationObjectDataSource.swift in Sources */,
 				DBB7932622708ACA007EB614 /* TreDueMonostabileNC.swift in Sources */,
 				DBB7933922708BB9007EB614 /* Utilities.swift in Sources */,
 				DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */,
 				DBB7932B22708ACA007EB614 /* Finecorsa.swift in Sources */,
+				DB8371A72270C75A0051F701 /* Extensions.swift in Sources */,
 				DBB7932822708ACA007EB614 /* GruppooFRL.swift in Sources */,
 				DBB7932522708ACA007EB614 /* CinqueDueBistabile.swift in Sources */,
+				DB83719D2270C4520051F701 /* BouncyView.swift in Sources */,
 				DBB7932722708ACA007EB614 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

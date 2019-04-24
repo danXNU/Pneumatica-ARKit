@@ -9,35 +9,60 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
+class ViewController: UIViewController {
     // MARK: - IBOutlets
-    
-//    @IBOutlet weak var sessionInfoView: UIView!
-//    @IBOutlet weak var sessionInfoLabel: UILabel!
+
     @IBOutlet weak var sceneView: ARSCNView!
     
-    // MARK: - View Life Cycle
+    var virtualObjects : [ValvolaConformance] = []
+    var selectedValvola: ValvolaConformance?
+    var selectedType: ValvolaConformance.Type?
     
-    /// - Tag: StartARSession
+    var tableView: UITableView!
+    var dataSource: UITableViewDataSource!
+    
+    // MARK: - View Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let scene = SCNScene(named: "Assets.scnassets/ship.scn")
+        self.sceneView.scene = scene!
+        self.sceneView.isPlaying = true
+        
+        self.tableView = UITableView()
+        self.tableView.register(BoldCell.self, forCellReuseIdentifier: "boldCell")
+        self.tableView.backgroundColor = .clear
+        self.tableView.separatorStyle = .none
+        self.tableView.tableFooterView = UIView()
+        self.tableView.delegate = self
+        
+        let holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(didHold(_:)))
+        self.view.addGestureRecognizer(holdGesture)
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        
-        // Start the view's AR session with a configuration that uses the rear camera,
-        // device position and orientation tracking, and plane detection.
+
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.vertical]
         sceneView.session.run(configuration)
         
-        // Set a delegate to track the number of plane anchors for providing UI feedback.
         sceneView.session.delegate = self
+        sceneView.delegate = self
         
-        // Prevent the screen from being dimmed after a while as users will likely
-        // have long periods of interaction without touching the screen or buttons.
         UIApplication.shared.isIdleTimerDisabled = true
         
-        // Show debug UI to view performance metrics (e.g. frames per second).
         sceneView.showsStatistics = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        sceneView.session.pause()
+    }
+    
+    
+    @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        showTableView()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -45,36 +70,66 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         let touchLocation = touch.location(in: sceneView)
         
         let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
-        guard let hitResult = result.last else { return }
+        if let hitResult = result.last {
+            let transform = SCNMatrix4.init(hitResult.worldTransform)
+            let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+            
+            if let type = self.selectedType {
+                place(valvola: type, at: hitPositionVector)
+            }
+        }
         
-        
-        let transform = SCNMatrix4.init(hitResult.worldTransform)
-        
-        let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
-        
-        
-        createBox(at: hitPositionVector)
+        hideTableView()
     }
     
-    func createBox(at position: SCNVector3) {
-        let boxGeometry = SCNBox(width: 0.2, height: 0.05, length: 0.05, chamferRadius: 0)
-        boxGeometry.firstMaterial?.diffuse.contents = UIColor.blue
-        
-        let boxNode = SCNNode(geometry: boxGeometry)
-        boxNode.position = position
-        
-        boxNode.eulerAngles = SCNVector3Make(0, Float(90.0).degreesToRadians, 0)
-        
-        sceneView.scene.rootNode.addChildNode(boxNode)
+    
+    func place(valvola: ValvolaConformance.Type, at position: SCNVector3) {
+        if let virtualObject = valvola.init() {
+            virtualObject.objectNode.scale = SCNVector3(0.1, 0.1, 0.1)
+            virtualObject.objectNode.position = position
+            self.virtualObjects.append(virtualObject)
+            sceneView.scene.rootNode.addChildNode(virtualObject.objectNode)
+        }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    func showTableView() {
+        let width = self.view.frame.size.width / 2
+        let height = self.view.frame.size.height
         
-        // Pause the view's AR session.
-        sceneView.session.pause()
+        let rect = CGRect(origin: .zero, size: .init(width: width, height: height))
+        self.tableView.frame = rect
+        self.view?.addSubview(self.tableView)
+        self.dataSource = ObjectCreationDataSource()
+        tableView.dataSource = self.dataSource
+        tableView.reloadData()
     }
     
+    func hideTableView() {
+        self.tableView.removeFromSuperview()
+    }
+    
+}
+
+extension ViewController: ARSCNViewDelegate {
+
+    // MARK: - Circuit logic
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let source = dataSource as? ObjectCreationDataSource {
+            self.selectedType = source.getType(at: indexPath.row)
+        }
+        hideTableView()
+    }
+}
+
+
+
+extension ViewController: ARSessionDelegate {
     // MARK: - ARSCNViewDelegate
     
     /// - Tag: PlaceARContent
@@ -120,26 +175,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
             }
         }
         
-    }
-    
-    // MARK: - ARSessionDelegate
-    
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
-    }
-    
-    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
-//        guard let frame = session.currentFrame else { return }
-//        updateSessionInfoLabel(for: frame, trackingState: frame.camera.trackingState)
-    }
-    
-    func session(_ session: ARSession, didRemove anchors: [ARAnchor]) {
-//        guard let frame = session.currentFrame else { return }
-//        updateSessionInfoLabel(for: frame, trackingState: frame.camera.trackingState)
-    }
-    
-    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-//        updateSessionInfoLabel(for: session.currentFrame!, trackingState: camera.trackingState)
     }
     
     // MARK: - ARSessionObserver

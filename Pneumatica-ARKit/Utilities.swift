@@ -7,7 +7,7 @@ Convenience extensions on system types.
 
 import ARKit
 
-var sceneName = "art.scnassets/objects.scn"
+var sceneName = "Assets.scnassets/objects.scn"
 
 @available(iOS 12.0, *)
 extension ARPlaneAnchor.Classification {
