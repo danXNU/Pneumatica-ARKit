@@ -18,6 +18,9 @@
 		DB9DD68E2270871700EF7EC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD68C2270871700EF7EC8 /* Main.storyboard */; };
 		DB9DD6902270871800EF7EC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD68F2270871800EF7EC8 /* Assets.xcassets */; };
 		DB9DD6932270871800EF7EC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB9DD6912270871800EF7EC8 /* LaunchScreen.storyboard */; };
+		DBA7393D2271C60D001BF29E /* Saver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA7393A2271C60D001BF29E /* Saver.swift */; };
+		DBA7393E2271C60D001BF29E /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA7393B2271C60D001BF29E /* Loader.swift */; };
+		DBA7393F2271C60D001BF29E /* DiskObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA7393C2271C60D001BF29E /* DiskObjects.swift */; };
 		DBB7932222708ACA007EB614 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931122708ACA007EB614 /* Line.swift */; };
 		DBB7932322708ACA007EB614 /* AND.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931322708ACA007EB614 /* AND.swift */; };
 		DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7931422708ACA007EB614 /* Pulsante.swift */; };
@@ -53,6 +56,9 @@
 		DB9DD68F2270871800EF7EC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB9DD6922270871800EF7EC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB9DD6942270871800EF7EC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DBA7393A2271C60D001BF29E /* Saver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Saver.swift; sourceTree = "<group>"; };
+		DBA7393B2271C60D001BF29E /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		DBA7393C2271C60D001BF29E /* DiskObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskObjects.swift; sourceTree = "<group>"; };
 		DBB7931122708ACA007EB614 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		DBB7931322708ACA007EB614 /* AND.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AND.swift; sourceTree = "<group>"; };
 		DBB7931422708ACA007EB614 /* Pulsante.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsante.swift; sourceTree = "<group>"; };
@@ -127,12 +133,23 @@
 				DB9DD6882270871700EF7EC8 /* Assets.scnassets */,
 				DB9DD68F2270871800EF7EC8 /* Assets.xcassets */,
 				DBB7933822708BB9007EB614 /* Utilities.swift */,
+				DBA739392271C60D001BF29E /* SaverModel */,
 				DB8371A12270C48D0051F701 /* DataSources */,
 				DBB7933122708B2B007EB614 /* Textures */,
 				DBB7930F22708ACA007EB614 /* Pneumatica */,
 				DB9DD68A2270871700EF7EC8 /* ViewController.swift */,
 			);
 			path = "Pneumatica-ARKit";
+			sourceTree = "<group>";
+		};
+		DBA739392271C60D001BF29E /* SaverModel */ = {
+			isa = PBXGroup;
+			children = (
+				DBA7393A2271C60D001BF29E /* Saver.swift */,
+				DBA7393B2271C60D001BF29E /* Loader.swift */,
+				DBA7393C2271C60D001BF29E /* DiskObjects.swift */,
+			);
+			path = SaverModel;
 			sourceTree = "<group>";
 		};
 		DBB7930F22708ACA007EB614 /* Pneumatica */ = {
@@ -292,6 +309,7 @@
 				DBB7933722708B57007EB614 /* Plane.swift in Sources */,
 				DBB7933022708ACA007EB614 /* InputOutput.swift in Sources */,
 				DB8371A42270C48D0051F701 /* CreationObjectDataSource.swift in Sources */,
+				DBA7393F2271C60D001BF29E /* DiskObjects.swift in Sources */,
 				DBB7932622708ACA007EB614 /* TreDueMonostabileNC.swift in Sources */,
 				DBB7933922708BB9007EB614 /* Utilities.swift in Sources */,
 				DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */,
@@ -299,6 +317,8 @@
 				DB8371A72270C75A0051F701 /* Extensions.swift in Sources */,
 				DBB7932822708ACA007EB614 /* GruppooFRL.swift in Sources */,
 				DBB7932522708ACA007EB614 /* CinqueDueBistabile.swift in Sources */,
+				DBA7393E2271C60D001BF29E /* Loader.swift in Sources */,
+				DBA7393D2271C60D001BF29E /* Saver.swift in Sources */,
 				DB83719D2270C4520051F701 /* BouncyView.swift in Sources */,
 				DBB7932722708ACA007EB614 /* Timer.swift in Sources */,
 			);

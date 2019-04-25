@@ -39,11 +39,11 @@ class ViewController: UIViewController {
     
     var virtualObjects : [ValvolaConformance] = []
     var lines: [Line] = []
-    var selectedValvola: ValvolaConformance? { didSet { highlight(valvola: selectedValvola) }  }
+    var selectedValvola: ValvolaConformance? { didSet { highlight(node: selectedValvola?.objectNode) }  }
     var selectedType: ValvolaConformance.Type?
     
-    var firstSelectedIO: InputOutput?
-    var secondSelectedIO: InputOutput?
+    var firstSelectedIO: InputOutput? { didSet { highlight(node: firstSelectedIO?.ioNode) } }
+    var secondSelectedIO: InputOutput? { didSet { highlight(node: secondSelectedIO?.ioNode) } }
     
     var tableView: UITableView!
     var dataSource: UITableViewDataSource!
@@ -244,9 +244,9 @@ class ViewController: UIViewController {
         return nil
     }
     
-    func highlight(valvola: ValvolaConformance?) {
-        guard let val = valvola else { return }
-        let material = val.objectNode.geometry?.firstMaterial
+    func highlight(node: SCNNode?) {
+        guard let realNode = node else { return }
+        let material = realNode.geometry?.firstMaterial
         
         SCNTransaction.begin()
         SCNTransaction.animationDuration = 0.5
