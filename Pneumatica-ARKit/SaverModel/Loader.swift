@@ -42,8 +42,8 @@ class Loader {
         for object in circuit.allObjects {
             guard var newObject = object.classType.getNode() else { continue }
             newObject.id = object.id //SUPER IMPORTANT
-            newObject.objectNode.position = loaderNode.convertPosition(object.position.vector3, from: self.loaderNode)
-            newObject.objectNode.position.z = self.loaderNode.position.z
+            newObject.objectNode.position = self.loaderNode.position + object.position.vector3//loaderNode.convertPosition(object.position.vector3, from: self.loaderNode)
+//            newObject.objectNode.worldPosition.z = self.loaderNode.worldPosition.z
             newObject.objectNode.scale = object.scale.vector3
             allNodes.append(newObject)
             

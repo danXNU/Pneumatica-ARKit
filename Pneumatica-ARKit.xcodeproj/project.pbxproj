@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB785D642272104000C391F9 /* SCNVector3+MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */; };
 		DB83719D2270C4520051F701 /* BouncyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719B2270C4520051F701 /* BouncyView.swift */; };
 		DB83719E2270C4520051F701 /* BoldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719C2270C4520051F701 /* BoldCell.swift */; };
 		DB8371A02270C4750051F701 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719F2270C4750051F701 /* EditView.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+MathUtils.swift"; sourceTree = "<group>"; };
 		DB83719B2270C4520051F701 /* BouncyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BouncyView.swift; sourceTree = "<group>"; };
 		DB83719C2270C4520051F701 /* BoldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoldCell.swift; sourceTree = "<group>"; };
 		DB83719F2270C4750051F701 /* EditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 		DBDC8922227087470092E4A5 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */,
 				DB8371A62270C75A0051F701 /* Extensions.swift */,
 				DBB7933622708B57007EB614 /* Plane.swift */,
 				DB9DD6912270871800EF7EC8 /* LaunchScreen.storyboard */,
@@ -315,6 +318,7 @@
 				DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */,
 				DBB7932B22708ACA007EB614 /* Finecorsa.swift in Sources */,
 				DB8371A72270C75A0051F701 /* Extensions.swift in Sources */,
+				DB785D642272104000C391F9 /* SCNVector3+MathUtils.swift in Sources */,
 				DBB7932822708ACA007EB614 /* GruppooFRL.swift in Sources */,
 				DBB7932522708ACA007EB614 /* CinqueDueBistabile.swift in Sources */,
 				DBA7393E2271C60D001BF29E /* Loader.swift in Sources */,
