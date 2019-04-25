@@ -214,12 +214,11 @@ class ViewController: UIViewController {
             
             do {
                 let loader = try Loader(fileName: "test", loaderNode: loaderNode)
-                loader.load(sceneRootNode: self.sceneView.scene.rootNode) { (valvole, lines) in
+                loader.load(sceneRootNode: self.sceneView.scene.rootNode) { (valvole, wires) in
                     self.virtualObjects = valvole
-                    self.lines = lines
-                    
-                    self.needToRedraw = true
-                    
+                    for wire in wires {
+                        self.createLine(from: wire.0, to: wire.1)
+                    }
                     print("Caricato")
                 }
             } catch {

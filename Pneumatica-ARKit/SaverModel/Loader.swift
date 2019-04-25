@@ -19,8 +19,6 @@ class Loader {
     
     private var loaderNode: SCNNode
     
-    var allLines : [Line] = []
-    
     init(fileName: String, loaderNode: SCNNode) throws {
         self.loaderNode = loaderNode
         
@@ -38,17 +36,18 @@ class Loader {
         
     }
     
-    public func load(sceneRootNode: SCNNode, completion: ([ValvolaConformance], [Line]) -> Void) {
+    public func load(sceneRootNode: SCNNode, completion: ([ValvolaConformance], [(InputOutput, InputOutput)]) -> Void) {
         for object in circuit.allObjects {
             guard var newObject = object.classType.getNode() else { continue }
             newObject.id = object.id //SUPER IMPORTANT
-            newObject.objectNode.position = self.loaderNode.position + object.position.vector3//loaderNode.convertPosition(object.position.vector3, from: self.loaderNode)
-//            newObject.objectNode.worldPosition.z = self.loaderNode.worldPosition.z
+            newObject.objectNode.position = self.loaderNode.position + object.position.vector3
             newObject.objectNode.scale = object.scale.vector3
             allNodes.append(newObject)
             
             sceneRootNode.addChildNode(newObject.objectNode)
         }
+        
+        var wires: [(InputOutput, InputOutput)] = []
         
         for link in circuit.links {
             let io = link.currentIO
@@ -56,17 +55,16 @@ class Loader {
             
             for ioConnected in link.connectedIOs {
                 guard let newNodeIO = getIONode(from: ioConnected) else { continue }
-                nodeIO.addWire(to: newNodeIO)
-                
-                if !self.allLines.contains(where: { (line) -> Bool in
-                    line.firstIO == nodeIO && line.secondIO == newNodeIO ||
-                    line.firstIO == newNodeIO && line.secondIO == nodeIO
+        
+                if !wires.contains(where: { (wire) -> Bool in
+                    wire.0 == nodeIO && wire.1 == newNodeIO ||
+                    wire.0 == newNodeIO && wire.1 == nodeIO
                 }) {
-                    self.allLines.append(Line(from: nodeIO, to: newNodeIO))
+                    wires.append((nodeIO, newNodeIO))
                 }
             }
         }
-        completion(self.allNodes, self.allLines)
+        completion(self.allNodes, wires)
     }
     
     private func getIONode(from io: IO) -> InputOutput? {
