@@ -250,9 +250,17 @@ class ViewController: UIViewController {
     }
     
     func place(valvola: ValvolaConformance.Type, at position: SCNVector3) {
+        guard let currentFrame = self.sceneView.session.currentFrame else { return }
+        let cameraTransform = SCNMatrix4.init(currentFrame.camera.transform)
+        let cameraPosition = SCNVector3Make(cameraTransform.m41, cameraTransform.m42, cameraTransform.m43)
+        
+        
         if let virtualObject = valvola.init() {
             virtualObject.objectNode.scale = SCNVector3(0.1, 0.1, 0.1)
             virtualObject.objectNode.position = position
+            virtualObject.objectNode.position.z += 0.02
+            virtualObject.objectNode.look(at: cameraPosition)
+            virtualObject.objectNode.eulerAngles.y += Float(180.0).degreesToRadians
             self.virtualObjects.append(virtualObject)
             sceneView.scene.rootNode.addChildNode(virtualObject.objectNode)
         }
