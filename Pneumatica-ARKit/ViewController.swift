@@ -144,8 +144,9 @@ class ViewController: UIViewController {
                 let transform = SCNMatrix4.init(hitResult.worldTransform)
                 let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
                 
-                if let type = self.selectedType {
-                    place(valvola: type, at: hitPositionVector)
+                if let type = self.selectedType, let valvola = type.init() {
+                    self.virtualObjects.append(valvola)
+                    place(node: valvola.objectNode, at: hitPositionVector)
                 }
             }
         case .editSettingsMode:
@@ -214,8 +215,11 @@ class ViewController: UIViewController {
             
             do {
                 let loader = try Loader(fileName: "test", loaderNode: loaderNode)
-                loader.load(sceneRootNode: self.sceneView.scene.rootNode) { (valvole, wires) in
+                loader.load() { (valvole, wires) in
                     self.virtualObjects = valvole
+                    for valvola in valvole {
+                        place(node: valvola.objectNode)
+                    }
                     for wire in wires {
                         self.createLine(from: wire.0, to: wire.1)
                     }
@@ -249,21 +253,21 @@ class ViewController: UIViewController {
         }
     }
     
-    func place(valvola: ValvolaConformance.Type, at position: SCNVector3) {
+    func place(node: SCNNode, at position: SCNVector3? = nil) {
         guard let currentFrame = self.sceneView.session.currentFrame else { return }
         let cameraTransform = SCNMatrix4.init(currentFrame.camera.transform)
         let cameraPosition = SCNVector3Make(cameraTransform.m41, cameraTransform.m42, cameraTransform.m43)
         
-        
-        if let virtualObject = valvola.init() {
-            virtualObject.objectNode.scale = SCNVector3(0.1, 0.1, 0.1)
-            virtualObject.objectNode.position = position
-            virtualObject.objectNode.position.z += 0.02
-            virtualObject.objectNode.look(at: cameraPosition)
-            virtualObject.objectNode.eulerAngles.y += Float(180.0).degreesToRadians
-            self.virtualObjects.append(virtualObject)
-            sceneView.scene.rootNode.addChildNode(virtualObject.objectNode)
+        node.scale = SCNVector3(0.1, 0.1, 0.1)
+        if let positionGiven = position {
+            node.position = positionGiven
+            node.position.z += 0.02
         }
+        node.look(at: cameraPosition)
+        node.eulerAngles.y += Float(180.0).degreesToRadians
+        node.eulerAngles.x = Float(180.0).degreesToRadians
+        
+        sceneView.scene.rootNode.addChildNode(node)
     }
     
     func move(valvola: ValvolaConformance, at location: SCNVector3) {

@@ -36,7 +36,7 @@ class Loader {
         
     }
     
-    public func load(sceneRootNode: SCNNode, completion: ([ValvolaConformance], [(InputOutput, InputOutput)]) -> Void) {
+    public func load(completion: ([ValvolaConformance], [(InputOutput, InputOutput)]) -> Void) {
         for object in circuit.allObjects {
             guard var newObject = object.classType.getNode() else { continue }
             newObject.id = object.id //SUPER IMPORTANT
@@ -44,7 +44,7 @@ class Loader {
             newObject.objectNode.scale = object.scale.vector3
             allNodes.append(newObject)
             
-            sceneRootNode.addChildNode(newObject.objectNode)
+//            sceneRootNode.addChildNode(newObject.objectNode)
         }
         
         var wires: [(InputOutput, InputOutput)] = []
