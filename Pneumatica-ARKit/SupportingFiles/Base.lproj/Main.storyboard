@@ -60,14 +60,35 @@
                                     <action selector="stpperTapped:" destination="BV1-FR-VrT" eventType="valueChanged" id="WAV-xx-bFg"/>
                                 </connections>
                             </stepper>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="1HR-gC-M4B">
+                                <rect key="frame" x="360" y="64" width="34" height="79"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAc-EA-czp">
+                                        <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
+                                        <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="saveButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="IRY-qO-67I"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAB-Rd-wYX">
+                                        <rect key="frame" x="0.0" y="49" width="34" height="30"/>
+                                        <state key="normal" title="Load"/>
+                                        <connections>
+                                            <action selector="loadButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="1Gy-tt-Wvq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="1HR-gC-M4B" secondAttribute="trailing" constant="20" id="4fu-Ns-9ns"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="BVb-F3-MGN"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="6LH-F6-AdW" secondAttribute="bottom" constant="35" id="UU6-NS-m3s"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
+                            <constraint firstItem="1HR-gC-M4B" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="20" id="q9z-np-4gz"/>
                             <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="PEb-aB-FaV" secondAttribute="bottom" constant="39" id="qtX-1E-EYe"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
                             <constraint firstItem="6LH-F6-AdW" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="xQY-N8-B1J"/>
@@ -81,6 +102,8 @@
                         <outletCollection property="editModesButtons" destination="Xsm-HE-x7N" collectionClass="NSMutableArray" id="KUh-2S-X0w"/>
                         <outletCollection property="editModesButtons" destination="d5h-jM-xtb" collectionClass="NSMutableArray" id="Eo0-DW-lzt"/>
                         <outletCollection property="editModesButtons" destination="H7n-FL-N16" collectionClass="NSMutableArray" id="fvL-mu-viI"/>
+                        <outletCollection property="editModesButtons" destination="dAc-EA-czp" collectionClass="NSMutableArray" id="osy-wJ-aax"/>
+                        <outletCollection property="editModesButtons" destination="FAB-Rd-wYX" collectionClass="NSMutableArray" id="y5C-pI-erT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

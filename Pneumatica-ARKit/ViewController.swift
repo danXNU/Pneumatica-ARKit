@@ -14,6 +14,8 @@ enum EditMode : String {
     case editSettingsMode = "Edit"
     case placeMode = "Place"
     case circuitMode = "Circuit"
+    case saveMode = "Save"
+    case loadMode = "Load"
 }
 
 class ViewController: UIViewController {
@@ -107,6 +109,14 @@ class ViewController: UIViewController {
         editMode = .circuitMode
     }
     
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
+        editMode = .saveMode
+    }
+    
+    @IBAction func loadButtonPressed(_ sender: UIButton) {
+        editMode = .loadMode
+    }
+    
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         showTableView()
     }
@@ -116,6 +126,7 @@ class ViewController: UIViewController {
         let value = Float(sender.value / 100.0)
         valvola.objectNode.scale = SCNVector3(value, value, value)
     }
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -166,6 +177,55 @@ class ViewController: UIViewController {
                     secondSelectedIO = nil
                 }
             }
+        case .saveMode:
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            guard let hitResult = result.last else { return }
+            
+            let transform = SCNMatrix4.init(hitResult.worldTransform)
+            let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+            
+            let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
+            box.firstMaterial?.transparency = 0.2
+            let saverNode = SCNNode(geometry: box)
+            saverNode.position = hitPositionVector
+            
+            self.sceneView.scene.rootNode.addChildNode(saverNode)
+            let saver = Saver(circuitName: "test", nodes: self.virtualObjects, nodeSaver: saverNode)
+            do {
+                try saver.save(to: "test")
+                print("Salvato")
+            } catch {
+                print("\(error)")
+            }
+
+        case .loadMode:
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            guard let hitResult = result.last else { return }
+            
+            let transform = SCNMatrix4.init(hitResult.worldTransform)
+            let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+            
+            let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
+            box.firstMaterial?.transparency = 0.2
+            let loaderNode = SCNNode(geometry: box)
+            loaderNode.position = hitPositionVector
+            
+            self.sceneView.scene.rootNode.addChildNode(loaderNode)
+            
+            do {
+                let loader = try Loader(fileName: "test", loaderNode: loaderNode)
+                loader.load(sceneRootNode: self.sceneView.scene.rootNode) { (valvole, lines) in
+                    self.virtualObjects = valvole
+                    self.lines = lines
+                    
+                    self.needToRedraw = true
+                    
+                    print("Caricato")
+                }
+            } catch {
+                print("\(error)")
+            }
+            
         }
         hideTableView()
     }
@@ -185,11 +245,7 @@ class ViewController: UIViewController {
                     move(valvola: selectedVal, at: positionVector)
                 }
             }
-        case .placeMode:
-            break
-        case .editSettingsMode:
-            break
-        case .circuitMode:
+        default:
             break
         }
     }

@@ -38,11 +38,13 @@ class Loader {
         
     }
     
-    public func load(sceneRootNode: SCNNode) -> [Line] {
+    public func load(sceneRootNode: SCNNode, completion: ([ValvolaConformance], [Line]) -> Void) {
         for object in circuit.allObjects {
             guard var newObject = object.classType.getNode() else { continue }
             newObject.id = object.id //SUPER IMPORTANT
             newObject.objectNode.position = loaderNode.convertPosition(object.position.vector3, from: self.loaderNode)
+            newObject.objectNode.position.z = self.loaderNode.position.z
+            newObject.objectNode.scale = object.scale.vector3
             allNodes.append(newObject)
             
             sceneRootNode.addChildNode(newObject.objectNode)
@@ -64,7 +66,7 @@ class Loader {
                 }
             }
         }
-        return self.allLines
+        completion(self.allNodes, self.allLines)
     }
     
     private func getIONode(from io: IO) -> InputOutput? {
