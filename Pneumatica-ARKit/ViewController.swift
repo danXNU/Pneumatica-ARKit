@@ -18,6 +18,29 @@ enum EditMode : String {
     case loadMode = "Load"
 }
 
+struct MovableEdit {
+    var isActive: Bool = false
+    var selectedInput : Movable? = nil
+    var selectedValvolaWithMovableInput: AcceptsMovableInput? = nil
+    var valueOfTrigger: Float = 0.0
+    var editView: EditView
+    var isSelectingFinecorsa: Bool = false
+    
+    init(frame: CGRect) {
+        self.editView = EditView(frame: frame)
+        reset()
+    }
+    
+    mutating func reset() {
+        self.editView.isHidden = true
+        self.isActive = false
+        self.valueOfTrigger = 0
+        self.selectedInput = nil
+        self.selectedValvolaWithMovableInput = nil
+        self.isSelectingFinecorsa = false
+    }
+}
+
 class ViewController: UIViewController {
     // MARK: - IBOutlets
 
@@ -52,6 +75,8 @@ class ViewController: UIViewController {
     
     var needToRedraw: Bool = false
     
+    var movableEdit: MovableEdit!
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +93,14 @@ class ViewController: UIViewController {
         self.tableView.separatorStyle = .none
         self.tableView.tableFooterView = UIView()
         self.tableView.delegate = self
+        
+        let x: Int = Int(self.view.frame.width / 4.0)
+        let y: Int = Int(self.view.frame.height / 5) * 2
+        self.movableEdit = MovableEdit(frame: CGRect(x: x,
+                                                     y: y,
+                                                     width: x * 2,
+                                                     height: y / 2))
+        self.view.addSubview(movableEdit.editView)
         
         let holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(didHold(_:)))
         self.view.addGestureRecognizer(holdGesture)
@@ -118,7 +151,25 @@ class ViewController: UIViewController {
     }
     
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        showTableView()
+        let touchLocation = gestureRecognizer.location(in: self.view)
+        
+        switch editMode {
+        case .editSettingsMode:
+            if self.movableEdit.isActive {
+                self.movableEdit.reset()
+            } else {
+                let results = sceneView.hitTest(touchLocation, options: nil)
+                guard let res = results.first else { break }
+                guard let selectedObject = getValvola(from: res.node) as? AcceptsMovableInput else { break }
+                print("Premuto un AcceptsMovableInput. Ora seleziona il MovableInput")
+                movableEdit.editView.isHidden = false
+                movableEdit.selectedValvolaWithMovableInput = selectedObject
+                self.movableEdit.isActive = true
+                self.movableEdit.isSelectingFinecorsa = true
+            }
+        default:
+            showTableView()
+        }
     }
     
     @IBAction func stpperTapped(_ sender: UIStepper) {
@@ -151,12 +202,27 @@ class ViewController: UIViewController {
             }
         case .editSettingsMode:
             let results = sceneView.hitTest(touchLocation, options: nil)
-            guard let res = results.first else { break }
-            guard let selectedObject = getValvola(from: res.node) else { break }
-            self.selectedValvola = selectedObject
-            sizeStepper.value = Double(selectedObject.objectNode.scale.y * 100)
+
+            if self.movableEdit.isActive {
+                guard let res = results.first else { return }
+                guard let selectedObject = getValvola(from: res.node) as? Movable else { break }
+                if var valvolaThatAcceptsMovableInput = movableEdit.selectedValvolaWithMovableInput {
+                    valvolaThatAcceptsMovableInput.movableInput = selectedObject
+                    valvolaThatAcceptsMovableInput.listenValue = movableEdit.editView.sliderValue
+                    movableEdit.reset()
+                }
+                
+//                if let movableInput =  movableEdit.selectedInput {
+//                    movableEdit.selectedValvolaWithMovableInput?.movableInput = movableInput
+//                    movableEdit.selectedValvolaWithMovableInput?.listenValue = movableEdit.valueOfTrigger
+//                }
+            } else {
+                guard let res = results.first else { return }
+                guard let selectedObject = getValvola(from: res.node) else { break }
+                self.selectedValvola = selectedObject
+                sizeStepper.value = Double(selectedObject.objectNode.scale.y * 100)
+            }
             
-            //also, set the edit view
         case .circuitMode:
             let results = sceneView.hitTest(touchLocation, options: nil)
             guard let res = results.first else { break }
