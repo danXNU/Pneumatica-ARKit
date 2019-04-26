@@ -349,9 +349,10 @@ class ViewController: UIViewController {
             let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             if let hitResult = result.last {
                 let transform = SCNMatrix4.init(hitResult.worldTransform)
-                let positionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+                var positionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
                 
                 if let selectedVal = selectedValvola {
+                    positionVector.z = selectedVal.objectNode.position.z
                     move(valvola: selectedVal, at: positionVector)
                 }
             }
