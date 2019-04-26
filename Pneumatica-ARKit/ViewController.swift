@@ -48,6 +48,9 @@ class ViewController: UIViewController {
     @IBOutlet var editModesButtons: [UIButton]!
     @IBOutlet weak var sizeStepper: UIStepper!
     @IBOutlet weak var rotationSlider: UISlider!
+    @IBOutlet weak var rotationXSlider: UISlider!
+    @IBOutlet weak var leftArrowButton: UIButton!
+    @IBOutlet weak var rightArrowButton: UIButton!
     
     var editMode : EditMode = .placeMode {
         didSet {
@@ -62,6 +65,9 @@ class ViewController: UIViewController {
             }
             self.sizeStepper.isHidden = (editMode != .editSettingsMode)
             self.rotationSlider.isHidden = (editMode != .editSettingsMode)
+            self.rotationXSlider.isHidden = (editMode != .editSettingsMode)
+            self.leftArrowButton.isHidden = (editMode != .editSettingsMode)
+            self.rightArrowButton.isHidden = (editMode != .editSettingsMode)
         }
     }
     
@@ -201,6 +207,30 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func rotationXsliderMoved(_ sender: UISlider) {
+        if let valvola = selectedValvola {
+            valvola.objectNode.eulerAngles.x = sender.value.degreesToRadians
+        } else {
+            for valvola in self.virtualObjects {
+                valvola.objectNode.eulerAngles.x = sender.value.degreesToRadians
+            }
+        }
+    }
+    
+    
+    @IBAction func leftArrowPressed(_ sender: UIButton) {
+        for valvola in self.virtualObjects {
+            valvola.objectNode.position.x -= 0.1
+        }
+    }
+    
+    @IBAction func rightArrowPressed(_ sender: UIButton) {
+        for valvola in self.virtualObjects {
+            valvola.objectNode.position.x += 0.1
+        }
+    }
+    
+    
     // MARK: - Touches functions
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let touchLocation = gestureRecognizer.location(in: self.view)
@@ -232,7 +262,7 @@ class ViewController: UIViewController {
         case .moveMode:
             let results = sceneView.hitTest(touchLocation, options: nil)
             guard let res = results.first else { break }
-            guard let selectedObject = getValvola(from: res.node) else { break }
+            guard let selectedObject = getValvola(from: res.node) else { selectedValvola = nil; break }
             self.selectedValvola = selectedObject
         case .placeMode:
             let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
@@ -286,7 +316,7 @@ class ViewController: UIViewController {
                 }
             }
         case .saveMode:
-            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             guard let hitResult = result.last else { return }
             
             let transform = SCNMatrix4.init(hitResult.worldTransform)
@@ -307,7 +337,7 @@ class ViewController: UIViewController {
             }
 
         case .loadMode:
-            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             guard let hitResult = result.last else { return }
             
             let transform = SCNMatrix4.init(hitResult.worldTransform)
