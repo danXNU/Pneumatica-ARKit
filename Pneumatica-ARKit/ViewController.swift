@@ -47,9 +47,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet var editModesButtons: [UIButton]!
     @IBOutlet weak var sizeStepper: UIStepper!
+    @IBOutlet weak var rotationSlider: UISlider!
     
     var editMode : EditMode = .placeMode {
         didSet {
+            selectedValvola = nil
             guard let modesButton = self.editModesButtons else { return }
             for button in modesButton {
                 if button.currentTitle == editMode.rawValue {
@@ -59,6 +61,7 @@ class ViewController: UIViewController {
                 }
             }
             self.sizeStepper.isHidden = (editMode != .editSettingsMode)
+            self.rotationSlider.isHidden = (editMode != .editSettingsMode)
         }
     }
     
@@ -126,6 +129,8 @@ class ViewController: UIViewController {
         sceneView.session.pause()
     }
     
+    // MARK: - IBActions
+    
     @IBAction func moveButtonTapped(_ sender: UIButton) {
         editMode = .moveMode
     }
@@ -150,6 +155,53 @@ class ViewController: UIViewController {
         editMode = .loadMode
     }
     
+    @IBAction func stpperTapped(_ sender: UIStepper) {
+        let value = Float(sender.value / 100.0)
+        if let valvola = selectedValvola {
+            valvola.objectNode.scale = SCNVector3(value, value, value)
+        } else {
+            for valvola in self.virtualObjects {
+                valvola.objectNode.scale = SCNVector3(value, value, value)
+            }
+        }
+    }
+    @IBAction func zAheadButtonPressed(_ sender: UIButton) {
+        if let valvola = selectedValvola {
+            let node = valvola.objectNode
+            node.position.z += 0.1
+        } else {
+            for valvola in self.virtualObjects {
+                let node = valvola.objectNode
+                node.position.z += 0.1
+            }
+        }
+        needToRedraw = true
+    }
+    
+    @IBAction func zBehindButtonPressed(_ sender: UIButton) {
+        if let valvola = selectedValvola {
+            let node = valvola.objectNode
+            node.position.z -= 0.1
+        } else {
+            for valvola in self.virtualObjects {
+                let node = valvola.objectNode
+                node.position.z -= 0.1
+            }
+        }
+        needToRedraw = true
+    }
+    
+    @IBAction func rotationSliderMoved(_ sender: UISlider) {
+        if let valvola = selectedValvola {
+            valvola.objectNode.eulerAngles.y = sender.value.degreesToRadians
+        } else {
+            for valvola in self.virtualObjects {
+                valvola.objectNode.eulerAngles.y = sender.value.degreesToRadians
+            }
+        }
+    }
+    
+    // MARK: - Touches functions
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let touchLocation = gestureRecognizer.location(in: self.view)
         
@@ -171,13 +223,6 @@ class ViewController: UIViewController {
             showTableView()
         }
     }
-    
-    @IBAction func stpperTapped(_ sender: UIStepper) {
-        guard let valvola = selectedValvola else { return }
-        let value = Float(sender.value / 100.0)
-        valvola.objectNode.scale = SCNVector3(value, value, value)
-    }
-    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -211,16 +256,12 @@ class ViewController: UIViewController {
                     valvolaThatAcceptsMovableInput.listenValue = movableEdit.editView.sliderValue
                     movableEdit.reset()
                 }
-                
-//                if let movableInput =  movableEdit.selectedInput {
-//                    movableEdit.selectedValvolaWithMovableInput?.movableInput = movableInput
-//                    movableEdit.selectedValvolaWithMovableInput?.listenValue = movableEdit.valueOfTrigger
-//                }
             } else {
                 guard let res = results.first else { return }
-                guard let selectedObject = getValvola(from: res.node) else { break }
+                guard let selectedObject = getValvola(from: res.node) else { selectedValvola = nil; break }
                 self.selectedValvola = selectedObject
                 sizeStepper.value = Double(selectedObject.objectNode.scale.y * 100)
+                rotationSlider.value = selectedObject.objectNode.eulerAngles.y.radiansToDegrees
             }
             
         case .circuitMode:
@@ -319,6 +360,8 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: - Generic functions
+    
     func place(node: SCNNode, at position: SCNVector3? = nil) {
         guard let currentFrame = self.sceneView.session.currentFrame else { return }
         let cameraTransform = SCNMatrix4.init(currentFrame.camera.transform)
@@ -330,7 +373,8 @@ class ViewController: UIViewController {
             node.position.z += 0.02
         }
         node.look(at: cameraPosition)
-        node.eulerAngles.y += Float(180.0).degreesToRadians
+//        node.eulerAngles.y += Float(180.0).degreesToRadians
+        node.eulerAngles.y = currentFrame.camera.eulerAngles.y + Float(180.0).degreesToRadians
         node.eulerAngles.x = Float(180.0).degreesToRadians
         
         sceneView.scene.rootNode.addChildNode(node)
@@ -479,11 +523,25 @@ extension ViewController: ARSessionDelegate {
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
         // Create a custom object to visualize the plane geometry and extent.
-        let plane = Plane(anchor: planeAnchor, in: sceneView)
+//        let plane = Plane(anchor: planeAnchor, in: sceneView)
         
         // Add the visualization to the ARKit-managed node so that it tracks
         // changes in the plane anchor as plane estimation continues.
-        node.addChildNode(plane)
+//        node.addChildNode(plane)
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = []
+        sceneView.session.run(configuration)
+        
+        let plane = SCNPlane(width: 2, height: 2)
+        plane.firstMaterial?.diffuse.contents = UIColor.blue
+        plane.firstMaterial?.transparency = 0.5
+        let newNode = SCNNode(geometry: plane)
+        let transform = SCNMatrix4.init(planeAnchor.transform)
+        let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+        newNode.position = hitPositionVector
+        sceneView.scene.rootNode.addChildNode(newNode)
+        
+        print("Trovato un plane! Ora fai quel cazzo che ti pare")
     }
     
     /// - Tag: UpdateARContent

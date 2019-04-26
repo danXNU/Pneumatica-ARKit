@@ -41,6 +41,7 @@ class Line: Equatable {
         let endPosition = secondIO.ioNode.worldPosition
         
         let zPos = startPosition.z
+//        let zPos = firstIO.ioNode.position.z
         
         var currentPosition = startPosition
         

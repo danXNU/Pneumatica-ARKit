@@ -79,23 +79,55 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tAa-Qk-JpK">
+                                <rect key="frame" x="20" y="66" width="30" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ElG-Id-RUd">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="Z+"/>
+                                        <connections>
+                                            <action selector="zAheadButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="maE-bh-rA4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NuU-au-mOG">
+                                        <rect key="frame" x="0.0" y="45" width="30" height="30"/>
+                                        <state key="normal" title="Z-"/>
+                                        <connections>
+                                            <action selector="zBehindButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="GL8-1P-yqg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="360" translatesAutoresizingMaskIntoConstraints="NO" id="r4S-kL-Ugp">
+                                <rect key="frame" x="18" y="662" width="378" height="31"/>
+                                <connections>
+                                    <action selector="rotationSliderMoved:" destination="BV1-FR-VrT" eventType="valueChanged" id="ubg-qx-bXI"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="1HR-gC-M4B" secondAttribute="trailing" constant="20" id="4fu-Ns-9ns"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="BVb-F3-MGN"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
+                            <constraint firstItem="r4S-kL-Ugp" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="HTf-a4-geA"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="r4S-kL-Ugp" secondAttribute="trailing" constant="20" id="LUg-Hf-qyw"/>
+                            <constraint firstItem="tAa-Qk-JpK" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="20" id="Su0-bI-Qbh"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="6LH-F6-AdW" secondAttribute="bottom" constant="35" id="UU6-NS-m3s"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
+                            <constraint firstItem="PEb-aB-FaV" firstAttribute="top" secondItem="r4S-kL-Ugp" secondAttribute="bottom" constant="37" id="gCU-iI-zMa"/>
+                            <constraint firstItem="tAa-Qk-JpK" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="22" id="gXb-ow-AlA"/>
                             <constraint firstItem="1HR-gC-M4B" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="20" id="q9z-np-4gz"/>
                             <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="PEb-aB-FaV" secondAttribute="bottom" constant="39" id="qtX-1E-EYe"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
+                            <constraint firstItem="r4S-kL-Ugp" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="20" id="tNh-NN-PR5"/>
                             <constraint firstItem="6LH-F6-AdW" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="xQY-N8-B1J"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
                     <connections>
+                        <outlet property="rotationSlider" destination="r4S-kL-Ugp" id="koy-cW-itp"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="wh2-bI-RQe"/>
                         <outlet property="sizeStepper" destination="PEb-aB-FaV" id="t0F-lj-F4w"/>
                         <outletCollection property="editModesButtons" destination="40o-Mp-8hC" collectionClass="NSMutableArray" id="Kvp-Kf-Ojq"/>
@@ -108,6 +140,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="37.681159420289859" y="18.75"/>
         </scene>
     </scenes>
 </document>
