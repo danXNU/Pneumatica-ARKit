@@ -190,7 +190,7 @@ class ViewController: UIViewController {
             guard let selectedObject = getValvola(from: res.node) else { break }
             self.selectedValvola = selectedObject
         case .placeMode:
-            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             if let hitResult = result.last {
                 let transform = SCNMatrix4.init(hitResult.worldTransform)
                 let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
@@ -305,7 +305,7 @@ class ViewController: UIViewController {
         
         switch editMode {
         case .moveMode:
-            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
+            let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             if let hitResult = result.last {
                 let transform = SCNMatrix4.init(hitResult.worldTransform)
                 let positionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
