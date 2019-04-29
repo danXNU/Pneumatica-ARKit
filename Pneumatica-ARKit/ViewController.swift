@@ -347,6 +347,7 @@ class ViewController: UIViewController {
             box.firstMaterial?.transparency = 0.2
             let loaderNode = SCNNode(geometry: box)
             loaderNode.position = hitPositionVector
+            loaderNode.name = "Loader"
             
             self.sceneView.scene.rootNode.addChildNode(loaderNode)
             
