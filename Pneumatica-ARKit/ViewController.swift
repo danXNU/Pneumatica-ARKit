@@ -16,6 +16,7 @@ enum EditMode : String {
     case circuitMode = "Circuit"
     case saveMode = "Save"
     case loadMode = "Load"
+    case handsFree = "HandsFree"
 }
 
 struct MovableEdit {
@@ -52,6 +53,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var leftArrowButton: UIButton!
     @IBOutlet weak var rightArrowButton: UIButton!
     
+    var pointerView: PointerView!
+    
     var editMode : EditMode = .placeMode {
         didSet {
             selectedValvola = nil
@@ -68,6 +71,8 @@ class ViewController: UIViewController {
             self.rotationXSlider.isHidden = (editMode != .editSettingsMode)
             self.leftArrowButton.isHidden = (editMode != .editSettingsMode)
             self.rightArrowButton.isHidden = (editMode != .editSettingsMode)
+            self.editModesButtons.forEach { $0.isHidden = (editMode == .handsFree) }
+            self.pointerView?.isHidden = editMode != .handsFree
         }
     }
     
@@ -113,6 +118,10 @@ class ViewController: UIViewController {
         
         let holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(didHold(_:)))
         self.view.addGestureRecognizer(holdGesture)
+        
+        pointerView = PointerView(frame: .init(origin: .zero, size: .init(width: 50, height: 50)))
+        self.view.addSubview(pointerView)
+        pointerView.center = self.view.center
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -230,6 +239,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func holderModeTouched(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 1 {
+            self.editMode = .handsFree
+        } else {
+            self.editMode = .circuitMode
+        }
+    }
     
     // MARK: - Touches functions
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -366,7 +382,8 @@ class ViewController: UIViewController {
             } catch {
                 print("\(error)")
             }
-            
+        case .handsFree:
+            break
         }
         hideTableView()
     }
@@ -513,6 +530,7 @@ extension ViewController: ARSCNViewDelegate {
 
     // MARK: - Circuit logic
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        if editMode != .circuitMode { return }
         for object in self.virtualObjects {
             object.ios.forEach { $0.update() }
             object.update()

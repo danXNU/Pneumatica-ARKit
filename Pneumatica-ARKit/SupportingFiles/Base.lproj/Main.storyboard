@@ -134,6 +134,20 @@
                                     <action selector="rotationXsliderMoved:" destination="BV1-FR-VrT" eventType="valueChanged" id="QSS-Jf-8az"/>
                                 </connections>
                             </slider>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xgM-1x-3TG">
+                                <rect key="frame" x="119.5" y="44" width="175" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="8sl-WI-eA2"/>
+                                    <constraint firstAttribute="width" constant="175" id="yQ3-2K-qnp"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Normale"/>
+                                    <segment title="Senza mani"/>
+                                </segments>
+                                <connections>
+                                    <action selector="holderModeTouched:" destination="BV1-FR-VrT" eventType="valueChanged" id="qjY-nX-a7a"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -142,9 +156,11 @@
                             <constraint firstItem="ETE-qI-xcs" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="9uq-3F-cU6"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="BVb-F3-MGN"/>
                             <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="wZU-Dv-E1z" secondAttribute="bottom" constant="30" id="DDZ-ll-Qls"/>
+                            <constraint firstItem="xgM-1x-3TG" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" id="DcW-Lg-Bgs"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
                             <constraint firstItem="r4S-kL-Ugp" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="HTf-a4-geA"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="r4S-kL-Ugp" secondAttribute="trailing" constant="20" id="LUg-Hf-qyw"/>
+                            <constraint firstItem="xgM-1x-3TG" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="MQ7-C1-fWD"/>
                             <constraint firstItem="wZU-Dv-E1z" firstAttribute="leading" secondItem="PEb-aB-FaV" secondAttribute="trailing" constant="26" id="Q21-D2-Gq3"/>
                             <constraint firstItem="tAa-Qk-JpK" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="20" id="Su0-bI-Qbh"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="6LH-F6-AdW" secondAttribute="bottom" constant="35" id="UU6-NS-m3s"/>
