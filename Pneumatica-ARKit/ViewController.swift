@@ -383,7 +383,15 @@ class ViewController: UIViewController {
                 print("\(error)")
             }
         case .handsFree:
-            break
+            let point = self.pointerView.center
+            let results = sceneView.hitTest(point, options: nil)
+            
+            guard let res = results.first else { break }
+            guard let selectedIO = getInputOutput(from: res.node) else { break }
+            if let tappableIO = selectedIO as? Tappable {
+                tappableIO.tapped()
+                break
+            }
         }
         hideTableView()
     }
@@ -530,7 +538,7 @@ extension ViewController: ARSCNViewDelegate {
 
     // MARK: - Circuit logic
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if editMode != .circuitMode { return }
+        if editMode != .circuitMode && editMode != .handsFree { return }
         for object in self.virtualObjects {
             object.ios.forEach { $0.update() }
             object.update()
