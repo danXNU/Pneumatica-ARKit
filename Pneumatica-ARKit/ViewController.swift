@@ -682,8 +682,14 @@ extension ViewController : MCSessionDelegate, MCBrowserViewControllerDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
         print("New Packet: \(packet)")
-        switch packet.comand {
-        case .touch: pointerTouched()
+        DispatchQueue.main.async {
+            switch packet.comand {
+            case .touch: self.pointerTouched()
+            case .setPlaceMode: self.editMode = .placeMode
+            case .setMoveMode: self.editMode = .moveMode
+            case .setEditMode: self.editMode = .editSettingsMode
+            case .setCircuitMode: self.editMode = .circuitMode
+            }
         }
     }
     
