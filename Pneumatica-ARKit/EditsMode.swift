@@ -15,7 +15,11 @@ enum EditMode : String {
     case circuitMode = "Circuit"
     case saveMode = "Save"
     case loadMode = "Load"
-    case handsFree = "HandsFree"
+}
+
+enum HandsMode {
+    case normal
+    case handsFree
 }
 
 struct MovableEdit {

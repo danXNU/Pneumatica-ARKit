@@ -43,8 +43,14 @@ class ViewController: UIViewController {
             self.rotationXSlider.isHidden = (editMode != .editSettingsMode)
             self.leftArrowButton.isHidden = (editMode != .editSettingsMode)
             self.rightArrowButton.isHidden = (editMode != .editSettingsMode)
-            self.editModesButtons.forEach { $0.isHidden = (editMode == .handsFree) }
-            self.pointerView?.isHidden = editMode != .handsFree
+            
+        }
+    }
+    
+    var handsMode: HandsMode = .normal {
+        didSet {
+            self.editModesButtons.forEach { $0.isHidden = (handsMode == HandsMode.handsFree) }
+            self.pointerView?.isHidden = handsMode != HandsMode.handsFree
         }
     }
     
@@ -215,12 +221,9 @@ class ViewController: UIViewController {
     
     @IBAction func holderModeTouched(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 1 {
-            self.editMode = .handsFree
-            
-            
-            
+            self.handsMode = .handsFree
         } else {
-            self.editMode = .circuitMode
+            self.handsMode = .normal
         }
     }
     
@@ -247,10 +250,7 @@ class ViewController: UIViewController {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        let touchLocation = touch.location(in: sceneView)
-        
+    fileprivate func simulateTouch(in touchLocation: CGPoint) {
         switch editMode {
         case .moveMode:
             let results = sceneView.hitTest(touchLocation, options: nil)
@@ -270,7 +270,7 @@ class ViewController: UIViewController {
             }
         case .editSettingsMode:
             let results = sceneView.hitTest(touchLocation, options: nil)
-
+            
             if self.movableEdit.isActive {
                 guard let res = results.first else { return }
                 guard let selectedObject = getValvola(from: res.node) as? Movable else { break }
@@ -328,7 +328,7 @@ class ViewController: UIViewController {
             } catch {
                 print("\(error)")
             }
-
+            
         case .loadMode:
             let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             guard let hitResult = result.last else { return }
@@ -359,18 +359,19 @@ class ViewController: UIViewController {
             } catch {
                 print("\(error)")
             }
-        case .handsFree:
-            let point = self.pointerView.center
-            let results = sceneView.hitTest(point, options: nil)
-            
-            guard let res = results.first else { break }
-            guard let selectedIO = getInputOutput(from: res.node) else { break }
-            if let tappableIO = selectedIO as? Tappable {
-                tappableIO.tapped()
-                break
-            }
         }
         hideTableView()
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if handsMode == .normal {
+            guard let touch = touches.first else { return }
+            let touchLocation = touch.location(in: sceneView)
+            
+            simulateTouch(in: touchLocation)
+        } else {
+            simulateTouch(in: pointerView.center)
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -511,15 +512,7 @@ class ViewController: UIViewController {
     
     func pointerTouched() {
         DispatchQueue.main.async {
-            let point = self.pointerView.center
-            let results = self.sceneView.hitTest(point, options: nil)
-            
-            guard let res = results.first else { return }
-            guard let selectedIO = self.getInputOutput(from: res.node) else { return }
-            if let tappableIO = selectedIO as? Tappable {
-                tappableIO.tapped()
-                return
-            }
+            self.simulateTouch(in: self.pointerView.center)
         }
     }
     
@@ -542,7 +535,7 @@ extension ViewController: ARSCNViewDelegate {
 
     // MARK: - Circuit logic
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if editMode != .circuitMode && editMode != .handsFree { return }
+        if editMode != .circuitMode { return }
         for object in self.virtualObjects {
             object.ios.forEach { $0.update() }
             object.update()
@@ -687,9 +680,8 @@ extension ViewController: ARSessionDelegate {
 extension ViewController : MCSessionDelegate, MCBrowserViewControllerDelegate {
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        print("HEEEEEREEEEEEEEE")
         guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
-        print("PACKEEEEEEEEEEEEEEEEET: \(packet)")
+        print("New Packet: \(packet)")
         switch packet.comand {
         case .touch: pointerTouched()
         }
