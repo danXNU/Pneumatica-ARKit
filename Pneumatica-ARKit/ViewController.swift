@@ -696,10 +696,10 @@ extension ViewController : MCSessionDelegate, MCBrowserViewControllerDelegate {
         DispatchQueue.main.async {
             switch packet.comand {
             case .touch: self.pointerTouched()
-            case .setPlaceMode: self.editMode = .placeMode
-            case .setMoveMode: self.editMode = .moveMode
-            case .setEditMode: self.editMode = .editSettingsMode
-            case .setCircuitMode: self.editMode = .circuitMode
+            case .setPlaceMode: self.editMode = .placeMode; self.showMessage("Place Mode")
+            case .setMoveMode: self.editMode = .moveMode; self.showMessage("Move Mode")
+            case .setEditMode: self.editMode = .editSettingsMode; self.showMessage("Edit Mode")
+            case .setCircuitMode: self.editMode = .circuitMode; self.showMessage("Circuit Mode")
             }
         }
     }

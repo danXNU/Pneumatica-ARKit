@@ -8,6 +8,7 @@
 
 import UIKit
 import SceneKit
+import SwiftEntryKit
 
 extension UIDevice {
     var deviceType : UIUserInterfaceIdiom {
@@ -280,4 +281,21 @@ extension UIColor {
 
 struct Folders {
     static var documentsPath: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+}
+
+extension UIViewController {
+    func showMessage(_  message: String, color: UIColor? = nil) {
+        DispatchQueue.main.async {
+            var attributes = EKAttributes.topNote
+            attributes.entryBackground = .color(color: color ?? .red)
+            attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.3), scale: .init(from: 1, to: 0.7, duration: 0.7)))
+            attributes.displayDuration = 1.5
+            
+            let description = EKProperty.LabelContent(text: message, style: .init(font: UIFont.preferredFont(forTextStyle: .body), color: .white))
+            
+            let contentView = EKNoteMessageView(with: description)
+            
+            SwiftEntryKit.display(entry: contentView, using: attributes)
+        }
+    }
 }
