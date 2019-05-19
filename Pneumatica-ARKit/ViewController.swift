@@ -8,39 +8,7 @@
 import UIKit
 import SceneKit
 import ARKit
-
-enum EditMode : String {
-    case moveMode = "Move"
-    case editSettingsMode = "Edit"
-    case placeMode = "Place"
-    case circuitMode = "Circuit"
-    case saveMode = "Save"
-    case loadMode = "Load"
-    case handsFree = "HandsFree"
-}
-
-struct MovableEdit {
-    var isActive: Bool = false
-    var selectedInput : Movable? = nil
-    var selectedValvolaWithMovableInput: AcceptsMovableInput? = nil
-    var valueOfTrigger: Float = 0.0
-    var editView: EditView
-    var isSelectingFinecorsa: Bool = false
-    
-    init(frame: CGRect) {
-        self.editView = EditView(frame: frame)
-        reset()
-    }
-    
-    mutating func reset() {
-        self.editView.isHidden = true
-        self.isActive = false
-        self.valueOfTrigger = 0
-        self.selectedInput = nil
-        self.selectedValvolaWithMovableInput = nil
-        self.isSelectingFinecorsa = false
-    }
-}
+import MultipeerConnectivity
 
 class ViewController: UIViewController {
     // MARK: - IBOutlets
@@ -52,6 +20,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var rotationXSlider: UISlider!
     @IBOutlet weak var leftArrowButton: UIButton!
     @IBOutlet weak var rightArrowButton: UIButton!
+    
+    var peerID: MCPeerID!
+    var mcSession: MCSession!
+    var mcADAssistant: MCAdvertiserAssistant!
     
     var pointerView: PointerView!
     
@@ -122,6 +94,8 @@ class ViewController: UIViewController {
         pointerView = PointerView(frame: .init(origin: .zero, size: .init(width: 50, height: 50)))
         self.view.addSubview(pointerView)
         pointerView.center = self.view.center
+        
+        setUpConnectivity()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -242,6 +216,9 @@ class ViewController: UIViewController {
     @IBAction func holderModeTouched(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 1 {
             self.editMode = .handsFree
+            
+            
+            
         } else {
             self.editMode = .circuitMode
         }
@@ -532,6 +509,33 @@ class ViewController: UIViewController {
         }
     }
     
+    func pointerTouched() {
+        DispatchQueue.main.async {
+            let point = self.pointerView.center
+            let results = self.sceneView.hitTest(point, options: nil)
+            
+            guard let res = results.first else { return }
+            guard let selectedIO = self.getInputOutput(from: res.node) else { return }
+            if let tappableIO = selectedIO as? Tappable {
+                tappableIO.tapped()
+                return
+            }
+        }
+    }
+    
+    func setUpConnectivity() {
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        mcSession.delegate = self
+        
+        if mcSession.connectedPeers.count <= 0 {
+            //                let browser = MCBrowserViewController(serviceType: "ARPneumatica", session: mcSession)
+            //                browser.delegate = self
+            //                self.present(browser, animated: true, completion: nil)
+            self.mcADAssistant = MCAdvertiserAssistant(serviceType: "ARPneumatica", discoveryInfo: nil, session: mcSession)
+            self.mcADAssistant.start()
+        }
+    }
 }
 
 extension ViewController: ARSCNViewDelegate {
@@ -678,4 +682,40 @@ extension ViewController: ARSessionDelegate {
         configuration.planeDetection = [.horizontal, .vertical]
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
+}
+
+extension ViewController : MCSessionDelegate, MCBrowserViewControllerDelegate {
+    
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        print("HEEEEEREEEEEEEEE")
+        guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
+        print("PACKEEEEEEEEEEEEEEEEET: \(packet)")
+        switch packet.comand {
+        case .touch: pointerTouched()
+        }
+    }
+    
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        switch state {
+        case MCSessionState.connected:
+            print("Connected to session: \(session)")
+            
+        case MCSessionState.connecting:
+            print("Connecting to session: \(session)")
+        default:
+            print("Did not connect to session: \(session)")
+        }
+    }
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
 }

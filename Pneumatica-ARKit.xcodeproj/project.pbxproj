@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DB624DBF22906AA60069C25F /* PointerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB624DBE22906AA60069C25F /* PointerView.swift */; };
+		DB624DF0229083DA0069C25F /* EditsMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB624DEF229083DA0069C25F /* EditsMode.swift */; };
+		DB624DF2229085C30069C25F /* Packets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB624DF1229085C30069C25F /* Packets.swift */; };
 		DB785D642272104000C391F9 /* SCNVector3+MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */; };
 		DB83719D2270C4520051F701 /* BouncyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719B2270C4520051F701 /* BouncyView.swift */; };
 		DB83719E2270C4520051F701 /* BoldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719C2270C4520051F701 /* BoldCell.swift */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		DB624DBE22906AA60069C25F /* PointerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerView.swift; sourceTree = "<group>"; };
+		DB624DEF229083DA0069C25F /* EditsMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditsMode.swift; sourceTree = "<group>"; };
+		DB624DF1229085C30069C25F /* Packets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Packets.swift; sourceTree = "<group>"; };
 		DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+MathUtils.swift"; sourceTree = "<group>"; };
 		DB83719B2270C4520051F701 /* BouncyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BouncyView.swift; sourceTree = "<group>"; };
 		DB83719C2270C4520051F701 /* BoldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoldCell.swift; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 				DBB7933122708B2B007EB614 /* Textures */,
 				DBB7930F22708ACA007EB614 /* Pneumatica */,
 				DB9DD68A2270871700EF7EC8 /* ViewController.swift */,
+				DB624DEF229083DA0069C25F /* EditsMode.swift */,
+				DB624DF1229085C30069C25F /* Packets.swift */,
 			);
 			path = "Pneumatica-ARKit";
 			sourceTree = "<group>";
@@ -304,6 +310,7 @@
 				DB83719E2270C4520051F701 /* BoldCell.swift in Sources */,
 				DB8371A02270C4750051F701 /* EditView.swift in Sources */,
 				DBB7932E22708ACA007EB614 /* Protocols.swift in Sources */,
+				DB624DF2229085C30069C25F /* Packets.swift in Sources */,
 				DBB7932222708ACA007EB614 /* Line.swift in Sources */,
 				DBB7932D22708ACA007EB614 /* CinqueDueMonostabili.swift in Sources */,
 				DB9DD68B2270871700EF7EC8 /* ViewController.swift in Sources */,
@@ -312,6 +319,7 @@
 				DBB7932A22708ACA007EB614 /* Cilindro.swift in Sources */,
 				DBB7932322708ACA007EB614 /* AND.swift in Sources */,
 				DBB7932922708ACA007EB614 /* TreDueBistabile.swift in Sources */,
+				DB624DF0229083DA0069C25F /* EditsMode.swift in Sources */,
 				DBB7933722708B57007EB614 /* Plane.swift in Sources */,
 				DBB7933022708ACA007EB614 /* InputOutput.swift in Sources */,
 				DB8371A42270C48D0051F701 /* CreationObjectDataSource.swift in Sources */,
@@ -477,6 +485,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R779A64KR9;
 				INFOPLIST_FILE = "$(SRCROOT)/Pneumatica-ARKit/SupportingFiles/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -495,6 +504,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R779A64KR9;
 				INFOPLIST_FILE = "$(SRCROOT)/Pneumatica-ARKit/SupportingFiles/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
