@@ -40,7 +40,7 @@ class TreDueMonostabileNC: ValvolaConformance {
         
         self.objectNode = node
         
-        let leftInNode = self.objectNode.childNode(withName: "leftInput", recursively: true)!
+        let leftInNode = self.objectNode.childNode(withName: "inputLeft", recursively: true)!
         self.inputLeft = InputOutput(node: leftInNode, valvola: self)
         
         let inAriaNode = self.objectNode.childNode(withName: "inputAria", recursively: true)!

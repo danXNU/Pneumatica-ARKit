@@ -700,6 +700,39 @@ extension ViewController : MCSessionDelegate, MCBrowserViewControllerDelegate {
             case .setMoveMode: self.editMode = .moveMode; self.showMessage("Move Mode")
             case .setEditMode: self.editMode = .editSettingsMode; self.showMessage("Edit Mode")
             case .setCircuitMode: self.editMode = .circuitMode; self.showMessage("Circuit Mode")
+            case .andObject:
+                self.selectedType = ValvolaAnd.self
+                self.showMessage("AND", color: .blue)
+            case .orObject:
+                self.selectedType = ValvolaOR.self
+                self.showMessage("OR", color: .blue)
+            case .pulsanteObject:
+                self.selectedType = Pulsante.self
+                self.showMessage("Pulsante", color: .blue)
+            case .treDueMSObject:
+                self.selectedType = TreDueMonostabileNC.self
+                self.showMessage("3/2 MS", color: .blue)
+            case .treDueBSObject:
+                self.selectedType = TreDueBistabile.self
+                self.showMessage("3/2 BS", color: .blue)
+            case .cinqueDueMSObject:
+                self.selectedType = CinqueDueMonostabile.self
+                self.showMessage("5/2 MS", color: .blue)
+            case .cinqueDueBSObject:
+                self.selectedType = CinqueDueBistabile.self
+                self.showMessage("5/2 BS", color: .blue)
+            case .timerObject:
+                self.selectedType = TimerObject.self
+                self.showMessage("Timer", color: .blue)
+            case .frlObject:
+                self.selectedType = GruppoFRL.self
+                self.showMessage("FRL", color: .blue)
+            case .cilindroObject:
+                self.selectedType = CilindroDoppioEffetto.self
+                self.showMessage("Cilindro DE", color: .blue)
+            case .finecorsaObject:
+                self.selectedType = Finecorsa.self
+                self.showMessage("Finecorsa", color: .blue)
             }
         }
     }
