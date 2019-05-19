@@ -253,10 +253,21 @@ class ViewController: UIViewController {
     fileprivate func simulateTouch(in touchLocation: CGPoint) {
         switch editMode {
         case .moveMode:
-            let results = sceneView.hitTest(touchLocation, options: nil)
-            guard let res = results.first else { break }
-            guard let selectedObject = getValvola(from: res.node) else { selectedValvola = nil; break }
-            self.selectedValvola = selectedObject
+            if handsMode == .handsFree, let currValvola = self.selectedValvola {
+                let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
+                guard let hitResult = result.last else { return }
+                let transform = SCNMatrix4.init(hitResult.worldTransform)
+                var positionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+                
+                positionVector.z = currValvola.objectNode.position.z
+                move(valvola: currValvola, at: positionVector)
+                self.selectedValvola = nil
+            } else {
+                let results = sceneView.hitTest(touchLocation, options: nil)
+                guard let res = results.first else { break }
+                guard let selectedObject = getValvola(from: res.node) else { selectedValvola = nil; break }
+                self.selectedValvola = selectedObject
+            }
         case .placeMode:
             let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             if let hitResult = result.last {
