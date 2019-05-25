@@ -227,11 +227,22 @@ class ViewController: UIViewController {
         }
     }
     
+    var removingObject : ValvolaConformance?
     // MARK: - Touches functions
+    
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let touchLocation = gestureRecognizer.location(in: self.view)
         
         switch editMode {
+        case .placeMode:
+            let hitResults = sceneView.hitTest(touchLocation, options: nil)
+            if let res = hitResults.first, let selectedObject = getValvola(from: res.node) {
+                if removingObject?.objectNode == selectedObject.objectNode { break } // - TODO: Fix this
+                removeObject(selectedObject)
+                
+            } else {
+                showTableView()
+            }
         case .editSettingsMode:
             if self.movableEdit.isActive {
                 self.movableEdit.reset()
@@ -407,6 +418,31 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Generic functions
+    
+    fileprivate func removeObject(_ selectedObject: ValvolaConformance) {
+        removingObject = selectedObject
+        let source = SCNAudioSource(fileNamed: "chargerUp.wav")!
+        let playSoundAction = SCNAction.playAudio(source, waitForCompletion: false)
+        let moveAction = SCNAction.moveBy(x: 0, y: 3, z: 0, duration: 2)
+        
+        let movementAction = SCNAction.group([playSoundAction, moveAction])
+        
+        let removeAction = SCNAction.removeFromParentNode()
+        let waitAction = SCNAction.wait(duration: 1)
+        
+        let finishAction = SCNAction.run { (_) in
+            self.removingObject = nil
+            self.virtualObjects.removeAll(where: { $0.objectNode == selectedObject.objectNode })
+        }
+        let fullAction = SCNAction.sequence([waitAction, movementAction, removeAction, finishAction])
+        
+        
+        let fire = SCNParticleSystem(named: "fire.scnp", inDirectory: nil)!
+        fire.particleSize = 0.01
+        selectedObject.objectNode.addParticleSystem(fire)
+        
+        selectedObject.objectNode.runAction(fullAction)
+    }
     
     func place(node: SCNNode, at position: SCNVector3? = nil) {
         guard let currentFrame = self.sceneView.session.currentFrame else { return }
