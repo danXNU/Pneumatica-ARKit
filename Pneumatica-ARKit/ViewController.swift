@@ -27,6 +27,13 @@ class ViewController: UIViewController {
     
     var pointerView: PointerView!
     
+    lazy var airSoundPlayer: AVAudioPlayer = {
+        guard let url = Bundle.main.url(forResource: "air", withExtension: "m4a") else { fatalError() }
+        guard let player = try? AVAudioPlayer(contentsOf: url) else { fatalError() }
+        player.numberOfLoops = -1
+        return player
+    }()
+    
     var editMode : EditMode = .placeMode {
         didSet {
             selectedValvola = nil
@@ -44,6 +51,11 @@ class ViewController: UIViewController {
             self.leftArrowButton.isHidden = (editMode != .editSettingsMode)
             self.rightArrowButton.isHidden = (editMode != .editSettingsMode)
             
+            if editMode == .circuitMode {
+                airSoundPlayer.play()
+            } else {
+                airSoundPlayer.pause()
+            }
         }
     }
     
@@ -102,6 +114,8 @@ class ViewController: UIViewController {
         pointerView.center = self.view.center
         
         setUpConnectivity()
+        
+        airSoundPlayer.prepareToPlay()
     }
 
     override func viewDidAppear(_ animated: Bool) {

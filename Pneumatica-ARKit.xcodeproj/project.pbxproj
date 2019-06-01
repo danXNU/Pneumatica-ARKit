@@ -47,6 +47,7 @@
 		DBB7933522708B2B007EB614 /* hp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBB7933322708B2B007EB614 /* hp.jpg */; };
 		DBB7933722708B57007EB614 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7933622708B57007EB614 /* Plane.swift */; };
 		DBB7933922708BB9007EB614 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB7933822708BB9007EB614 /* Utilities.swift */; };
+		DBC15C1022A2E12200047731 /* air.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C0F22A2E12200047731 /* air.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,7 @@
 		DBB7933322708B2B007EB614 /* hp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hp.jpg; sourceTree = "<group>"; };
 		DBB7933622708B57007EB614 /* Plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
 		DBB7933822708BB9007EB614 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		DBC15C0F22A2E12200047731 /* air.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = air.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +249,7 @@
 				DB9DD68C2270871700EF7EC8 /* Main.storyboard */,
 				DB9DD6862270871700EF7EC8 /* AppDelegate.swift */,
 				DB177B70229865E8002A16F5 /* chargerUp.wav */,
+				DBC15C0F22A2E12200047731 /* air.m4a */,
 				DB177B6C22985B6B002A16F5 /* fire.png */,
 				DB177B6D22985B6B002A16F5 /* fire.scnp */,
 			);
@@ -315,6 +318,7 @@
 				DBB7933422708B2B007EB614 /* hp3.jpg in Resources */,
 				DB177B6F22985B6B002A16F5 /* fire.scnp in Resources */,
 				DB177B71229865E8002A16F5 /* chargerUp.wav in Resources */,
+				DBC15C1022A2E12200047731 /* air.m4a in Resources */,
 				DBB7933522708B2B007EB614 /* hp.jpg in Resources */,
 				DB9DD6892270871700EF7EC8 /* Assets.scnassets in Resources */,
 				DB177B6E22985B6B002A16F5 /* fire.png in Resources */,
