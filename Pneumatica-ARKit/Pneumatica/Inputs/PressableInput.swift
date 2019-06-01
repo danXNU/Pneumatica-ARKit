@@ -13,6 +13,7 @@ class PressableInput: IOConformance, Tappable {
     var idleColor: UIColor = .red
     
     var ioNode: SCNNode
+    var stateDidChange: (() -> Void)? = nil
     
     var ariaPressure : Double = 0.0 {
         didSet {
@@ -39,6 +40,7 @@ class PressableInput: IOConformance, Tappable {
         } else {
             self.ariaPressure = 0
         }
+        stateDidChange?()
     }
     
 }

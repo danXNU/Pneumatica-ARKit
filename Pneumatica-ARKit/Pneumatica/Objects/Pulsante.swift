@@ -7,6 +7,7 @@
 //
 
 import SceneKit
+import AVFoundation
 
 class Pulsante: ValvolaConformance {
     enum PulsanteState {
@@ -33,6 +34,20 @@ class Pulsante: ValvolaConformance {
     var objectNode: SCNNode
     var labelNode: SCNNode?
     
+    private lazy var onPlayer: AVAudioPlayer = {
+        guard let url = Bundle.main.url(forResource: "buttonOn", withExtension: "m4a") else { fatalError() }
+        guard let player = try? AVAudioPlayer(contentsOf: url) else { fatalError() }
+        player.prepareToPlay()
+        return player
+    }()
+    
+    private lazy var offPlayer: AVAudioPlayer = {
+        guard let url = Bundle.main.url(forResource: "buttonOff", withExtension: "m4a") else { fatalError() }
+        guard let player = try? AVAudioPlayer(contentsOf: url) else { fatalError() }
+        player.prepareToPlay()
+        return player
+    }()
+    
     required init?() {
         guard let scene = SCNScene(named: sceneName) else { return nil }
         guard let node = scene.rootNode.childNode(withName: "pulsante", recursively: true) else { return nil }
@@ -54,6 +69,14 @@ class Pulsante: ValvolaConformance {
         
         
         self.labelNode = self.objectNode.childNode(withName: "label", recursively: true)
+        
+        self.inputPulsante.stateDidChange = {
+            if self.inputPulsante.ariaPressure > 0 {
+                self.onPlayer.play()
+            } else {
+                self.offPlayer.play()
+            }
+        }
     }
     
     func update() {
@@ -62,5 +85,13 @@ class Pulsante: ValvolaConformance {
         } else {
             self.state = .riposo
         }
+    }
+    
+    func playClickedSound() {
+        onPlayer.play()
+    }
+    
+    func playReleaseSound() {
+        offPlayer.play()
     }
 }

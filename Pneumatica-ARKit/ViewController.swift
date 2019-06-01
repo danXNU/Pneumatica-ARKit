@@ -251,7 +251,7 @@ class ViewController: UIViewController {
         case .placeMode:
             let hitResults = sceneView.hitTest(touchLocation, options: nil)
             if let res = hitResults.first, let selectedObject = getValvola(from: res.node) {
-                if removingObject?.objectNode == selectedObject.objectNode { break } // - TODO: Fix this
+                if removingObject?.objectNode == selectedObject.objectNode { break }
                 removeObject(selectedObject)
                 
             } else {
