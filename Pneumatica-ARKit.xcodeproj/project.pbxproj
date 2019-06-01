@@ -13,6 +13,8 @@
 		DB624DBF22906AA60069C25F /* PointerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB624DBE22906AA60069C25F /* PointerView.swift */; };
 		DB624DF0229083DA0069C25F /* EditsMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB624DEF229083DA0069C25F /* EditsMode.swift */; };
 		DB624DF2229085C30069C25F /* Packets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB624DF1229085C30069C25F /* Packets.swift */; };
+		DB6BCBA922A3117A00EAA394 /* pistonOn.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DB6BCBA722A3117A00EAA394 /* pistonOn.m4a */; };
+		DB6BCBAA22A3117A00EAA394 /* pistonOff.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DB6BCBA822A3117A00EAA394 /* pistonOff.m4a */; };
 		DB785D642272104000C391F9 /* SCNVector3+MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */; };
 		DB83719D2270C4520051F701 /* BouncyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719B2270C4520051F701 /* BouncyView.swift */; };
 		DB83719E2270C4520051F701 /* BoldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB83719C2270C4520051F701 /* BoldCell.swift */; };
@@ -61,6 +63,8 @@
 		DB624DBE22906AA60069C25F /* PointerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointerView.swift; sourceTree = "<group>"; };
 		DB624DEF229083DA0069C25F /* EditsMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditsMode.swift; sourceTree = "<group>"; };
 		DB624DF1229085C30069C25F /* Packets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Packets.swift; sourceTree = "<group>"; };
+		DB6BCBA722A3117A00EAA394 /* pistonOn.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = pistonOn.m4a; sourceTree = "<group>"; };
+		DB6BCBA822A3117A00EAA394 /* pistonOff.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = pistonOff.m4a; sourceTree = "<group>"; };
 		DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+MathUtils.swift"; sourceTree = "<group>"; };
 		DB83719B2270C4520051F701 /* BouncyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BouncyView.swift; sourceTree = "<group>"; };
 		DB83719C2270C4520051F701 /* BoldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoldCell.swift; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 		DBDC8922227087470092E4A5 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				DB6BCBA722A3117A00EAA394 /* pistonOn.m4a */,
+				DB6BCBA822A3117A00EAA394 /* pistonOff.m4a */,
 				DBC15C1222A2FA8C00047731 /* buttonOff.m4a */,
 				DBC15C1122A2FA8C00047731 /* buttonOn.m4a */,
 				DB785D632272104000C391F9 /* SCNVector3+MathUtils.swift */,
@@ -326,12 +332,14 @@
 				DB177B71229865E8002A16F5 /* chargerUp.wav in Resources */,
 				DBC15C1022A2E12200047731 /* air.m4a in Resources */,
 				DBC15C1422A2FA8C00047731 /* buttonOff.m4a in Resources */,
+				DB6BCBAA22A3117A00EAA394 /* pistonOff.m4a in Resources */,
 				DBB7933522708B2B007EB614 /* hp.jpg in Resources */,
 				DB9DD6892270871700EF7EC8 /* Assets.scnassets in Resources */,
 				DBC15C1322A2FA8C00047731 /* buttonOn.m4a in Resources */,
 				DB177B6E22985B6B002A16F5 /* fire.png in Resources */,
 				DB9DD6932270871800EF7EC8 /* LaunchScreen.storyboard in Resources */,
 				DB9DD6902270871800EF7EC8 /* Assets.xcassets in Resources */,
+				DB6BCBA922A3117A00EAA394 /* pistonOn.m4a in Resources */,
 				DB9DD68E2270871700EF7EC8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,6 +7,7 @@
 //
 
 import SceneKit
+import AVFoundation
 
 class CilindroDoppioEffetto : ValvolaConformance, Movable {
     enum CyclinderState {
@@ -32,6 +33,20 @@ class CilindroDoppioEffetto : ValvolaConformance, Movable {
         return self.pistone.position.x
     }
     var movingPath: MovingPath!
+    
+    private lazy var exitSoundPlayer: AVAudioPlayer = {
+        guard let url = Bundle.main.url(forResource: "pistonOn", withExtension: "m4a") else { fatalError() }
+        guard let player = try? AVAudioPlayer(contentsOf: url) else { fatalError() }
+        player.prepareToPlay()
+        return player
+    }()
+    
+    private lazy var enterSoundPlayer: AVAudioPlayer = {
+        guard let url = Bundle.main.url(forResource: "pistonOff", withExtension: "m4a") else { fatalError() }
+        guard let player = try? AVAudioPlayer(contentsOf: url) else { fatalError() }
+        player.prepareToPlay()
+        return player
+    }()
     
     required init?() {
         guard let scene = SCNScene(named: sceneName) else { return nil }
@@ -69,11 +84,13 @@ class CilindroDoppioEffetto : ValvolaConformance, Movable {
             if inputLeft.ariaPressure > 0 && inputRight.ariaPressure <= 0 {
                 self.pistone?.runAction(pistonAction)
                 self.state = .fuoriuscito
+                self.exitSoundPlayer.play()
             }
         case .fuoriuscito:
             if inputRight.ariaPressure > 0 && inputLeft.ariaPressure <= 0 {
                 self.pistone.runAction(pistonAction.reversed())
                 self.state = .interno
+                self.enterSoundPlayer.play()
             }
         case .animating: break // da fare in futuro se necessario
         }
