@@ -374,7 +374,7 @@ class ViewController: UIViewController {
                 }
                 
                 loader.load() { (valvole, wires) in
-                    self.virtualObjects = valvole
+                    self.virtualObjects.append(contentsOf: valvole)
                     for valvola in valvole {
                         place(node: valvola.objectNode)
                     }
