@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,64 +20,12 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" sceneName="ship.scn" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                             </arscnView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="6LH-F6-AdW">
-                                <rect key="frame" x="80.5" y="797" width="253" height="30"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="40o-Mp-8hC">
-                                        <rect key="frame" x="0.0" y="0.0" width="38" height="30"/>
-                                        <state key="normal" title="Place"/>
-                                        <connections>
-                                            <action selector="placeButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Xsv-SP-x1b"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xsm-HE-x7N">
-                                        <rect key="frame" x="72" y="0.0" width="38" height="30"/>
-                                        <state key="normal" title="Move"/>
-                                        <connections>
-                                            <action selector="moveButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="KN3-JG-5iv"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d5h-jM-xtb">
-                                        <rect key="frame" x="144" y="0.0" width="30" height="30"/>
-                                        <state key="normal" title="Edit"/>
-                                        <connections>
-                                            <action selector="editButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Ajj-2P-9zI"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H7n-FL-N16">
-                                        <rect key="frame" x="208" y="0.0" width="45" height="30"/>
-                                        <state key="normal" title="Circuit"/>
-                                        <connections>
-                                            <action selector="circuitButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="r7N-Xu-rbr"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="PEb-aB-FaV">
                                 <rect key="frame" x="160" y="729" width="94" height="29"/>
                                 <connections>
                                     <action selector="stpperTapped:" destination="BV1-FR-VrT" eventType="valueChanged" id="WAV-xx-bFg"/>
                                 </connections>
                             </stepper>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="1HR-gC-M4B">
-                                <rect key="frame" x="360" y="64" width="34" height="79"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAc-EA-czp">
-                                        <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
-                                        <state key="normal" title="Save"/>
-                                        <connections>
-                                            <action selector="saveButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="IRY-qO-67I"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAB-Rd-wYX">
-                                        <rect key="frame" x="0.0" y="49" width="34" height="30"/>
-                                        <state key="normal" title="Load"/>
-                                        <connections>
-                                            <action selector="loadButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="1Gy-tt-Wvq"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tAa-Qk-JpK">
                                 <rect key="frame" x="20" y="66" width="30" height="75"/>
                                 <subviews>
@@ -148,51 +95,63 @@
                                     <action selector="holderModeTouched:" destination="BV1-FR-VrT" eventType="valueChanged" id="qjY-nX-a7a"/>
                                 </connections>
                             </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="sQF-fw-oYa">
+                                <rect key="frame" x="0.0" y="802" width="414" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="OlE-wx-M5q"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Place"/>
+                                    <segment title="Move"/>
+                                    <segment title="Edit"/>
+                                    <segment title="Circuit"/>
+                                    <segment title="Salva"/>
+                                    <segment title="Carica"/>
+                                    <segment title="2D-3D"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentChanged:" destination="BV1-FR-VrT" eventType="valueChanged" id="VoP-tD-9tO"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="1HR-gC-M4B" secondAttribute="trailing" constant="20" id="4fu-Ns-9ns"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="leading" secondItem="5uh-cg-ymX" secondAttribute="trailing" constant="27" id="6rv-4B-c2F"/>
                             <constraint firstItem="ETE-qI-xcs" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="9uq-3F-cU6"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="BVb-F3-MGN"/>
-                            <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="wZU-Dv-E1z" secondAttribute="bottom" constant="30" id="DDZ-ll-Qls"/>
                             <constraint firstItem="xgM-1x-3TG" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" id="DcW-Lg-Bgs"/>
+                            <constraint firstItem="sQF-fw-oYa" firstAttribute="top" secondItem="PEb-aB-FaV" secondAttribute="bottom" constant="44" id="Dlh-5T-oaL"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
                             <constraint firstItem="r4S-kL-Ugp" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="HTf-a4-geA"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="sQF-fw-oYa" secondAttribute="bottom" constant="30" id="Kw8-tx-zO5"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="r4S-kL-Ugp" secondAttribute="trailing" constant="20" id="LUg-Hf-qyw"/>
                             <constraint firstItem="xgM-1x-3TG" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="MQ7-C1-fWD"/>
                             <constraint firstItem="wZU-Dv-E1z" firstAttribute="leading" secondItem="PEb-aB-FaV" secondAttribute="trailing" constant="26" id="Q21-D2-Gq3"/>
                             <constraint firstItem="tAa-Qk-JpK" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="20" id="Su0-bI-Qbh"/>
-                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="6LH-F6-AdW" secondAttribute="bottom" constant="35" id="UU6-NS-m3s"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="ETE-qI-xcs" secondAttribute="trailing" constant="20" id="aVX-qt-Xp9"/>
-                            <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="5uh-cg-ymX" secondAttribute="bottom" constant="30" id="cSO-G5-NIg"/>
+                            <constraint firstItem="sQF-fw-oYa" firstAttribute="top" secondItem="wZU-Dv-E1z" secondAttribute="bottom" constant="35" id="bYb-Kx-6DQ"/>
                             <constraint firstItem="ETE-qI-xcs" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="20" id="efp-1g-lIS"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="top" secondItem="r4S-kL-Ugp" secondAttribute="bottom" constant="37" id="gCU-iI-zMa"/>
                             <constraint firstItem="tAa-Qk-JpK" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="22" id="gXb-ow-AlA"/>
+                            <constraint firstItem="sQF-fw-oYa" firstAttribute="top" secondItem="5uh-cg-ymX" secondAttribute="bottom" constant="35" id="ivz-Cs-2iH"/>
                             <constraint firstItem="r4S-kL-Ugp" firstAttribute="top" secondItem="ETE-qI-xcs" secondAttribute="bottom" constant="8" id="jmV-7k-1wi"/>
-                            <constraint firstItem="1HR-gC-M4B" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="20" id="q9z-np-4gz"/>
-                            <constraint firstItem="6LH-F6-AdW" firstAttribute="top" secondItem="PEb-aB-FaV" secondAttribute="bottom" constant="39" id="qtX-1E-EYe"/>
+                            <constraint firstItem="sQF-fw-oYa" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="qTy-Rh-ZsZ"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
                             <constraint firstItem="r4S-kL-Ugp" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="20" id="tNh-NN-PR5"/>
-                            <constraint firstItem="6LH-F6-AdW" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="xQY-N8-B1J"/>
+                            <constraint firstItem="sQF-fw-oYa" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="ymT-tb-j1P"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
                     <connections>
                         <outlet property="leftArrowButton" destination="5uh-cg-ymX" id="QKg-vQ-iDH"/>
+                        <outlet property="modeSegment" destination="sQF-fw-oYa" id="jP9-Vl-PN0"/>
                         <outlet property="rightArrowButton" destination="wZU-Dv-E1z" id="my8-Zl-b8n"/>
                         <outlet property="rotationSlider" destination="r4S-kL-Ugp" id="koy-cW-itp"/>
                         <outlet property="rotationXSlider" destination="ETE-qI-xcs" id="2FV-R5-Onh"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="wh2-bI-RQe"/>
                         <outlet property="sizeStepper" destination="PEb-aB-FaV" id="t0F-lj-F4w"/>
-                        <outletCollection property="editModesButtons" destination="40o-Mp-8hC" collectionClass="NSMutableArray" id="Kvp-Kf-Ojq"/>
-                        <outletCollection property="editModesButtons" destination="Xsm-HE-x7N" collectionClass="NSMutableArray" id="KUh-2S-X0w"/>
-                        <outletCollection property="editModesButtons" destination="d5h-jM-xtb" collectionClass="NSMutableArray" id="Eo0-DW-lzt"/>
-                        <outletCollection property="editModesButtons" destination="H7n-FL-N16" collectionClass="NSMutableArray" id="fvL-mu-viI"/>
-                        <outletCollection property="editModesButtons" destination="dAc-EA-czp" collectionClass="NSMutableArray" id="osy-wJ-aax"/>
-                        <outletCollection property="editModesButtons" destination="FAB-Rd-wYX" collectionClass="NSMutableArray" id="y5C-pI-erT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

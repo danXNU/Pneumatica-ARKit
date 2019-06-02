@@ -8,13 +8,14 @@
 
 import SceneKit
 
-enum EditMode : String {
-    case moveMode = "Move"
-    case editSettingsMode = "Edit"
-    case placeMode = "Place"
-    case circuitMode = "Circuit"
-    case saveMode = "Save"
-    case loadMode = "Load"
+enum EditMode {
+    case moveMode
+    case editSettingsMode
+    case placeMode
+    case circuitMode
+    case saveMode
+    case loadMode
+    case load2DMode
 }
 
 enum HandsMode {

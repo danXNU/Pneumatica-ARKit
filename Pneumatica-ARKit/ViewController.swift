@@ -14,12 +14,12 @@ class ViewController: UIViewController {
     // MARK: - IBOutlets
 
     @IBOutlet weak var sceneView: ARSCNView!
-    @IBOutlet var editModesButtons: [UIButton]!
     @IBOutlet weak var sizeStepper: UIStepper!
     @IBOutlet weak var rotationSlider: UISlider!
     @IBOutlet weak var rotationXSlider: UISlider!
     @IBOutlet weak var leftArrowButton: UIButton!
     @IBOutlet weak var rightArrowButton: UIButton!
+    @IBOutlet weak var modeSegment: UISegmentedControl!
     
     var peerID: MCPeerID!
     var mcSession: MCSession!
@@ -37,14 +37,6 @@ class ViewController: UIViewController {
     var editMode : EditMode = .placeMode {
         didSet {
             selectedValvola = nil
-            guard let modesButton = self.editModesButtons else { return }
-            for button in modesButton {
-                if button.currentTitle == editMode.rawValue {
-                    button.titleLabel?.backgroundColor = .green
-                } else {
-                    button.titleLabel?.backgroundColor = .yellow
-                }
-            }
             self.sizeStepper.isHidden = (editMode != .editSettingsMode)
             self.rotationSlider.isHidden = (editMode != .editSettingsMode)
             self.rotationXSlider.isHidden = (editMode != .editSettingsMode)
@@ -61,7 +53,7 @@ class ViewController: UIViewController {
     
     var handsMode: HandsMode = .normal {
         didSet {
-            self.editModesButtons.forEach { $0.isHidden = (handsMode == HandsMode.handsFree) }
+            self.modeSegment?.isHidden = handsMode == HandsMode.handsFree
             self.pointerView?.isHidden = handsMode != HandsMode.handsFree
         }
     }
@@ -140,28 +132,17 @@ class ViewController: UIViewController {
     
     // MARK: - IBActions
     
-    @IBAction func moveButtonTapped(_ sender: UIButton) {
-        editMode = .moveMode
-    }
-    
-    @IBAction func placeButtonTapped(_ sender: UIButton) {
-        editMode = .placeMode
-    }
-    
-    @IBAction func editButtonTapped(_ sender: UIButton) {
-        editMode = .editSettingsMode
-    }
-    
-    @IBAction func circuitButtonTapped(_ sender: UIButton) {
-        editMode = .circuitMode
-    }
-    
-    @IBAction func saveButtonPressed(_ sender: UIButton) {
-        editMode = .saveMode
-    }
-    
-    @IBAction func loadButtonPressed(_ sender: UIButton) {
-        editMode = .loadMode
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: editMode = .placeMode
+        case 1: editMode = .moveMode
+        case 2: editMode = .editSettingsMode
+        case 3: editMode = .circuitMode
+        case 4: editMode = .saveMode
+        case 5: editMode = .loadMode
+        case 6: editMode = .load2DMode
+        default: break
+        }
     }
     
     @IBAction func stpperTapped(_ sender: UIStepper) {
@@ -174,6 +155,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     @IBAction func zAheadButtonPressed(_ sender: UIButton) {
         if let valvola = selectedValvola {
             let node = valvola.objectNode
@@ -399,6 +381,8 @@ class ViewController: UIViewController {
                 self.showMessage("\(error)", duration: 3)
                 print("\(error)")
             }
+        case .load2DMode:
+            break
         }
         hideTableView()
     }
