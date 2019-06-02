@@ -341,13 +341,13 @@ class ViewController: UIViewController {
             self.sceneView.scene.rootNode.addChildNode(saverNode)
             let saver = Saver(circuitName: "test", nodes: self.virtualObjects, nodeSaver: saverNode)
             do {
-                try saver.save(to: "test")
+                try saver.save(to: "circuit3D.json")
                 print("Salvato")
             } catch {
                 print("\(error)")
             }
             
-        case .loadMode:
+        case .loadMode, .load2DMode:
             let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             guard let hitResult = result.last else { return }
             
@@ -363,10 +363,16 @@ class ViewController: UIViewController {
             self.sceneView.scene.rootNode.addChildNode(loaderNode)
         
             do {
-                let converter = Converter(fileName: "test.json")
-                converter.convert()
+                var loader: Loader
                 
-                let loader = try Loader(fileName: "circuit2D-3D.json", loaderNode: loaderNode)
+                if editMode == .load2DMode {
+                    let converter = Converter(fileName: "circuit2D.json")
+                    converter.convert()
+                    loader = try Loader(fileName: "circuit2D-3D.json", loaderNode: loaderNode)
+                } else {
+                    loader = try Loader(fileName: "circuit3D.json", loaderNode: loaderNode)
+                }
+                
                 loader.load() { (valvole, wires) in
                     self.virtualObjects = valvole
                     for valvola in valvole {
@@ -381,8 +387,6 @@ class ViewController: UIViewController {
                 self.showMessage("\(error)", duration: 3)
                 print("\(error)")
             }
-        case .load2DMode:
-            break
         }
         hideTableView()
     }
