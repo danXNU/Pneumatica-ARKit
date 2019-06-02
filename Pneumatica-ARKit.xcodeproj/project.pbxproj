@@ -52,6 +52,8 @@
 		DBC15C1022A2E12200047731 /* air.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C0F22A2E12200047731 /* air.m4a */; };
 		DBC15C1322A2FA8C00047731 /* buttonOn.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C1122A2FA8C00047731 /* buttonOn.m4a */; };
 		DBC15C1422A2FA8C00047731 /* buttonOff.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C1222A2FA8C00047731 /* buttonOff.m4a */; };
+		DBE5F45D22A3B3E6001FD2E2 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE5F45C22A3B3E6001FD2E2 /* Converter.swift */; };
+		DBE5F46622A3B43F001FD2E2 /* SpriteDiskObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE5F46322A3B43F001FD2E2 /* SpriteDiskObjects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +106,8 @@
 		DBC15C0F22A2E12200047731 /* air.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = air.m4a; sourceTree = "<group>"; };
 		DBC15C1122A2FA8C00047731 /* buttonOn.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = buttonOn.m4a; sourceTree = "<group>"; };
 		DBC15C1222A2FA8C00047731 /* buttonOff.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = buttonOff.m4a; sourceTree = "<group>"; };
+		DBE5F45C22A3B3E6001FD2E2 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
+		DBE5F46322A3B43F001FD2E2 /* SpriteDiskObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteDiskObjects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +188,7 @@
 		DBA739392271C60D001BF29E /* SaverModel */ = {
 			isa = PBXGroup;
 			children = (
+				DBE5F45B22A3B3C6001FD2E2 /* Converter */,
 				DBA7393A2271C60D001BF29E /* Saver.swift */,
 				DBA7393B2271C60D001BF29E /* Loader.swift */,
 				DBA7393C2271C60D001BF29E /* DiskObjects.swift */,
@@ -266,6 +271,15 @@
 				DB177B6D22985B6B002A16F5 /* fire.scnp */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		DBE5F45B22A3B3C6001FD2E2 /* Converter */ = {
+			isa = PBXGroup;
+			children = (
+				DBE5F46322A3B43F001FD2E2 /* SpriteDiskObjects.swift */,
+				DBE5F45C22A3B3E6001FD2E2 /* Converter.swift */,
+			);
+			path = Converter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -376,6 +390,7 @@
 			files = (
 				DBB7932F22708ACA007EB614 /* PressableInput.swift in Sources */,
 				DB83719E2270C4520051F701 /* BoldCell.swift in Sources */,
+				DBE5F45D22A3B3E6001FD2E2 /* Converter.swift in Sources */,
 				DB8371A02270C4750051F701 /* EditView.swift in Sources */,
 				DBB7932E22708ACA007EB614 /* Protocols.swift in Sources */,
 				DB624DF2229085C30069C25F /* Packets.swift in Sources */,
@@ -394,6 +409,7 @@
 				DBA7393F2271C60D001BF29E /* DiskObjects.swift in Sources */,
 				DBB7932622708ACA007EB614 /* TreDueMonostabileNC.swift in Sources */,
 				DB624DBF22906AA60069C25F /* PointerView.swift in Sources */,
+				DBE5F46622A3B43F001FD2E2 /* SpriteDiskObjects.swift in Sources */,
 				DBB7933922708BB9007EB614 /* Utilities.swift in Sources */,
 				DBB7932422708ACA007EB614 /* Pulsante.swift in Sources */,
 				DBB7932B22708ACA007EB614 /* Finecorsa.swift in Sources */,
