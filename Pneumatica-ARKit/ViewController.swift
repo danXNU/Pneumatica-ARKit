@@ -227,6 +227,7 @@ class ViewController: UIViewController {
     // MARK: - Touches functions
     
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state != .began { return }
         let touchLocation = gestureRecognizer.location(in: self.view)
         
         switch editMode {
@@ -640,9 +641,10 @@ extension ViewController: ARSessionDelegate {
         configuration.planeDetection = []
         sceneView.session.run(configuration)
         
-        let plane = SCNPlane(width: 2, height: 2)
-        plane.firstMaterial?.diffuse.contents = UIColor.blue
-        plane.firstMaterial?.transparency = 0.5
+        let plane = SCNPlane(width: 3, height: 4)
+        let texture = #imageLiteral(resourceName: "dark")
+        plane.firstMaterial?.diffuse.contents = texture
+//        plane.firstMaterial?.transparency = 0.5
         let newNode = SCNNode(geometry: plane)
         let transform = SCNMatrix4.init(planeAnchor.transform)
         let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
