@@ -19,6 +19,18 @@ class Loader {
     
     private var loaderNode: SCNNode
     
+    init(url: URL, loaderNode: SCNNode) throws {
+        self.loaderNode = loaderNode
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let circuit = try JSONDecoder().decode(Circuit.self, from: data)
+            self.circuit = circuit
+        } catch {
+            throw error
+        }
+    }
+    
     init(fileName: String, loaderNode: SCNNode) throws {
         self.loaderNode = loaderNode
         

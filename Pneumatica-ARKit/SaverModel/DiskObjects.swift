@@ -14,14 +14,14 @@ struct Circuit : Codable {
     var id: UUID
     var version : String = "0.1"
     var name: String
-    var centerVector: CustomVettore
+//    var centerVector: CustomVettore
     var allObjects: [Object]
     var links: [Link]
     
     init(name: String) {
         self.name = name
         self.id = UUID()
-        self.centerVector = .zero
+//        self.centerVector = .zero
         self.allObjects = []
         self.links = []
     }

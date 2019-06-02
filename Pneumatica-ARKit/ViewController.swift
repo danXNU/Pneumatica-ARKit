@@ -379,9 +379,12 @@ class ViewController: UIViewController {
             loaderNode.name = "Loader"
             
             self.sceneView.scene.rootNode.addChildNode(loaderNode)
-            
+        
             do {
-                let loader = try Loader(fileName: "test", loaderNode: loaderNode)
+                let converter = Converter(fileName: "test.json")
+                converter.convert()
+                
+                let loader = try Loader(fileName: "circuit2D-3D.json", loaderNode: loaderNode)
                 loader.load() { (valvole, wires) in
                     self.virtualObjects = valvole
                     for valvola in valvole {
@@ -393,6 +396,7 @@ class ViewController: UIViewController {
                     print("Caricato")
                 }
             } catch {
+                self.showMessage("\(error)", duration: 3)
                 print("\(error)")
             }
         }

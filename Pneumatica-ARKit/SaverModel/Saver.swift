@@ -20,7 +20,7 @@ class Saver {
     
     init(circuitName: String, nodes: [ValvolaConformance], nodeSaver: SCNNode) {
         self.circuit = Circuit(name: circuitName)
-        self.circuit.centerVector = .zero
+//        self.circuit.centerVector = .zero
         self.nodes = nodes
         self.nodeSaver = nodeSaver
         calculate()

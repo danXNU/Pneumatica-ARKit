@@ -15,7 +15,7 @@ struct SpriteCircuit : Codable {
     var name: String
     var screenSize: CGSize
     var allObjects: [SpriteObject]
-    var links: [SpriteLink]
+    var links: [Link]
     
     init(name: String) {
         self.name = name
@@ -44,23 +44,23 @@ struct SpriteObject : Codable {
     }
 }
 
-struct SpriteIO : Codable {
-    var id: UUID
-    var objectIONumber: Int
-    var name: String?
-    var objectID: UUID
-    
-    init(ioID: UUID, objectIONumber: Int, objectID: UUID) {
-        self.id = ioID
-        self.objectIONumber = objectIONumber
-        self.objectID = objectID
-    }
-}
+//struct SpriteIO : Codable {
+//    var id: UUID
+//    var objectIONumber: Int
+//    var name: String?
+//    var objectID: UUID
+//
+//    init(ioID: UUID, objectIONumber: Int, objectID: UUID) {
+//        self.id = ioID
+//        self.objectIONumber = objectIONumber
+//        self.objectID = objectID
+//    }
+//}
 
-struct SpriteLink : Codable {
-    var currentIO : SpriteIO
-    var connectedIOs : [SpriteIO]
-}
+//struct SpriteLink : Codable {
+//    var currentIO : IO
+//    var connectedIOs : [IO]
+//}
 
 
 enum SpriteClassType : Int, Codable {
