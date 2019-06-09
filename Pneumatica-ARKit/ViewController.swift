@@ -210,6 +210,10 @@ class ViewController: UIViewController {
             for valvola in self.virtualObjects {
                 valvola.objectNode.eulerAngles.y = sender.value.degreesToRadians
             }
+            if let valv = virtualObjects.first {
+                sendRotateAllCommand(eulerAngles: valv.objectNode.eulerAngles)
+            }
+            
         }
     }
     
@@ -530,7 +534,9 @@ class ViewController: UIViewController {
                 valvola?.objectNode.eulerAngles = SCNVector3(cvector: command.newEulerAngles)
             }
             else if let command = try? JSONDecoder().decode(RotateAllCommand.self, from: data) {
-                
+                for valvola in self.virtualObjects {
+                    valvola.objectNode.eulerAngles = SCNVector3(cvector: command.newEulerAngles)
+                }
             }
             else if let command = try? JSONDecoder().decode(MoveZAllCommand.self, from: data) {
                 
@@ -787,6 +793,14 @@ class ViewController: UIViewController {
     fileprivate func sendRotateCommand(_ valvola: ValvolaConformance) {
         let command = RotateCommand(objectID: valvola.id,
                                     newEulerAngles: Vector3(vector: valvola.objectNode.eulerAngles))
+        if let data = CustomEncoder.encode(object: command) {
+            self.mpHostSession?.sendToAllPeers(data)
+            self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
+    
+    fileprivate func sendRotateAllCommand(eulerAngles: SCNVector3) {
+        let command = RotateAllCommand(newEulerAngles: Vector3(vector: eulerAngles))
         if let data = CustomEncoder.encode(object: command) {
             self.mpHostSession?.sendToAllPeers(data)
             self.mpClientSession?.sendToAllPeers(data)
