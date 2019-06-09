@@ -48,4 +48,7 @@ class ValvolaAnd : ValvolaConformance {
         }
     }
     
+    var objectType: ObjectType {
+        return .and
+    }
 }

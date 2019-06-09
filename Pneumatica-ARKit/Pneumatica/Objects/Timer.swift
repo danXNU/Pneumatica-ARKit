@@ -72,4 +72,8 @@ class TimerObject: ValvolaConformance {
         })
     }
 
+    
+    var objectType: ObjectType {
+        return .timer
+    }
 }

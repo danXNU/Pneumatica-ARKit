@@ -79,4 +79,7 @@ class TreDueBistabile: ValvolaConformance {
         }
     }
     
+    var objectType: ObjectType {
+        return .treDueBS
+    }
 }

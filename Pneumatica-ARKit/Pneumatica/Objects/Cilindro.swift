@@ -98,4 +98,7 @@ class CilindroDoppioEffetto : ValvolaConformance, Movable {
     
     func enable() {}
     
+    var objectType: ObjectType {
+        return .cilindro
+    }
 }

@@ -48,4 +48,8 @@ class ValvolaOR : ValvolaConformance {
             mainOutput.ariaPressure = 0.0
         }
     }
+    
+    var objectType: ObjectType {
+        return .or
+    }
 }

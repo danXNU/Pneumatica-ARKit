@@ -80,4 +80,7 @@ class CinqueDueMonostabile: ValvolaConformance {
         }
     }
     
+    var objectType: ObjectType {
+        return .cinqueDueMS
+    }
 }

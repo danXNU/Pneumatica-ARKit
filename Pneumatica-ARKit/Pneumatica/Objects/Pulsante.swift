@@ -94,4 +94,8 @@ class Pulsante: ValvolaConformance {
     func playReleaseSound() {
         offPlayer.play()
     }
+    
+    var objectType: ObjectType {
+        return .pulsante
+    }
 }

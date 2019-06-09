@@ -26,9 +26,9 @@ protocol ValvolaConformance {
     var labelNode : SCNNode? { get set }
     
     func update()
+    var objectType: ObjectType { get }
 }
-extension ValvolaConformance {
-
+extension ValvolaConformance {    
     static var keyStringClass: String {
         return String(describing: self)
     }

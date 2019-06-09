@@ -21,9 +21,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var rightArrowButton: UIButton!
     @IBOutlet weak var modeSegment: UISegmentedControl!
     
+    @IBOutlet weak var worldMapStateLabel: UILabel!
+    @IBOutlet weak var sendWorldMapButton: UIButton!
+    
     var peerID: MCPeerID!
     var mcSession: MCSession!
     var mcADAssistant: MCAdvertiserAssistant!
+    
+    var mpMode: MPMode = .none {
+        didSet {
+            DispatchQueue.main.async {
+                self.worldMapStateLabel.isHidden = self.mpMode != .host
+                self.sendWorldMapButton.isHidden = self.mpMode != .host
+            }
+        }
+    }
     
     var pointerView: PointerView!
     
@@ -33,6 +45,11 @@ class ViewController: UIViewController {
         player.numberOfLoops = -1
         return player
     }()
+    
+    var planeIsAdded: Bool = false
+    
+    var mpHostSession: MPHostSession?
+    var mpClientSession: MPClientSession?
     
     var editMode : EditMode = .placeMode {
         didSet {
@@ -223,9 +240,32 @@ class ViewController: UIViewController {
         }
     }
     
-    var removingObject : ValvolaConformance?
+    @IBAction func multiplayerSgmentTouched(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            self.mpHostSession = MPHostSession(receivedDataHandler: receivedData)
+            self.mpMode = .host
+        } else {
+            self.mpClientSession = MPClientSession(receivedDataHandler: receivedData)
+            let mcBrowser = MCBrowserViewController(serviceType: MPClientSession.serviceType, session: self.mpClientSession!.session)
+            mcBrowser.delegate = self
+            self.present(mcBrowser, animated: true)
+            self.mpMode = .client
+        }
+    }
+    
+    @IBAction func sendWorldMapTapped(_ sender: UIButton) {
+        sceneView.session.getCurrentWorldMap { (worldMap, error) in
+            guard let map = worldMap else { print("\(error!)"); return }
+            guard let data = try? NSKeyedArchiver.archivedData(withRootObject: map, requiringSecureCoding: true)
+                else { fatalError("Can't encode worldMap") }
+            self.mpHostSession?.sendToAllPeers(data)
+        }
+    }
+    
+    
     // MARK: - Touches functions
     
+    var removingObject : ValvolaConformance?
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state != .began { return }
         let touchLocation = gestureRecognizer.location(in: self.view)
@@ -285,6 +325,8 @@ class ViewController: UIViewController {
                 if let type = self.selectedType, let valvola = type.init() {
                     self.virtualObjects.append(valvola)
                     place(node: valvola.objectNode, at: hitPositionVector)
+                    
+                    sendAddCommand(valvola, hitPositionVector)
                 }
             }
         case .editSettingsMode:
@@ -425,6 +467,60 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Generic functions
+    
+    func receivedData(_ data: Data, from peer: MCPeerID) {
+        
+        
+            if let worldMap = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ARWorldMap.self, from: data) {
+                // Run the session with the received world map.
+                let configuration = ARWorldTrackingConfiguration()
+                configuration.planeDetection = .vertical
+                configuration.initialWorldMap = worldMap
+                sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+
+                print("Received World Map! YEAHHHH")
+            }
+            else if let anchor = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ARAnchor.self, from: data) {
+                    // Add anchor to the session, ARSCNView delegate adds visible content.
+                    sceneView.session.add(anchor: anchor)
+            }
+            else if let command = try? JSONDecoder().decode(AddCommand.self, from: data) {
+                var objectType: ValvolaConformance.Type
+                switch command.objectType {
+                case .and: objectType = ValvolaAnd.self
+                case .or: objectType = ValvolaOR.self
+                case .pulsante: objectType = Pulsante.self
+                case .treDueMS: objectType = TreDueMonostabileNC.self
+                case .treDueBS: objectType = TreDueBistabile.self
+                case .cinqueDueMS: objectType = CinqueDueMonostabile.self
+                case .cinqueDueBS: objectType = CinqueDueBistabile.self
+                case .timer: objectType = TimerObject.self
+                case .frl: objectType = GruppoFRL.self
+                case .cilindro: objectType = CilindroDoppioEffetto.self
+                case .finecorsa: objectType = Finecorsa.self
+                }
+                
+                if var valvola = objectType.init() {
+                    valvola.id = command.newID
+                    valvola.objectNode.eulerAngles = SCNVector3(cvector: command.eulerAngles)
+                    self.virtualObjects.append(valvola)
+                    self.place(node: valvola.objectNode, at: SCNVector3(cvector: command.position))
+                }
+            }
+            else if let command = try? JSONDecoder().decode(MoveCommand.self, from: data) {
+                
+            }
+            else if let command = try? JSONDecoder().decode(RotateCommand.self, from: data) {
+                
+            }
+            else if let command = try? JSONDecoder().decode(RemoveCommand.self, from: data) {
+                
+            }
+            else {
+                    print("unknown data recieved from \(peer)")
+            }
+        
+    }
     
     fileprivate func removeObject(_ selectedObject: ValvolaConformance) {
         removingObject = selectedObject
@@ -576,11 +672,19 @@ class ViewController: UIViewController {
         mcSession.delegate = self
         
         if mcSession.connectedPeers.count <= 0 {
-            //                let browser = MCBrowserViewController(serviceType: "ARPneumatica", session: mcSession)
-            //                browser.delegate = self
-            //                self.present(browser, animated: true, completion: nil)
             self.mcADAssistant = MCAdvertiserAssistant(serviceType: "ARPneumatica", discoveryInfo: nil, session: mcSession)
             self.mcADAssistant.start()
+        }
+    }
+    
+    fileprivate func sendAddCommand(_ valvola: ValvolaConformance, _ hitPositionVector: SCNVector3) {
+        let command = AddCommand(newID: valvola.id,
+                                 objectType: valvola.objectType,
+                                 position: Vector3(vector: hitPositionVector),
+                                 eulerAngles: Vector3(vector: valvola.objectNode.eulerAngles))
+        if let data = CustomEncoder.encode(object: command) {
+            mpHostSession?.sendToAllPeers(data)
+            mpClientSession?.sendToAllPeers(data)
         }
     }
 }
@@ -626,31 +730,36 @@ extension ViewController: UITableViewDelegate {
 extension ViewController: ARSessionDelegate {
     // MARK: - ARSCNViewDelegate
     
+    func session(_ session: ARSession, didUpdate frame: ARFrame) {
+        switch frame.worldMappingStatus {
+        case .mapped:
+            worldMapStateLabel.text = "MAPPATA"
+            sendWorldMapButton.isEnabled = true
+        default:
+            worldMapStateLabel.text = "Non mappata"
+            sendWorldMapButton.isEnabled = false
+        }
+    }
+    
     /// - Tag: PlaceARContent
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         // Place content only for anchors found by plane detection.
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        // Create a custom object to visualize the plane geometry and extent.
-//        let plane = Plane(anchor: planeAnchor, in: sceneView)
+        if !self.planeIsAdded {
+            let plane = SCNPlane(width: 3, height: 4)
+            let texture = #imageLiteral(resourceName: "dark")
+            plane.firstMaterial?.diffuse.contents = texture
+            //        plane.firstMaterial?.transparency = 0.5
+            let newNode = SCNNode(geometry: plane)
+            newNode.name = "background-plane"
+            let transform = SCNMatrix4.init(planeAnchor.transform)
+            let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+            newNode.position = hitPositionVector
+            sceneView.scene.rootNode.addChildNode(newNode)
+        }
         
-        // Add the visualization to the ARKit-managed node so that it tracks
-        // changes in the plane anchor as plane estimation continues.
-//        node.addChildNode(plane)
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = []
-        sceneView.session.run(configuration)
-        
-        let plane = SCNPlane(width: 3, height: 4)
-        let texture = #imageLiteral(resourceName: "dark")
-        plane.firstMaterial?.diffuse.contents = texture
-//        plane.firstMaterial?.transparency = 0.5
-        let newNode = SCNNode(geometry: plane)
-        let transform = SCNMatrix4.init(planeAnchor.transform)
-        let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
-        newNode.position = hitPositionVector
-        sceneView.scene.rootNode.addChildNode(newNode)
-        
+        self.planeIsAdded = true
         print("Trovato un plane! Ora fai quel cazzo che ti pare")
     }
     
@@ -722,8 +831,6 @@ extension ViewController: ARSessionDelegate {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    
-    // MARK: - Private methods
         
     private func resetTracking() {
         let configuration = ARWorldTrackingConfiguration()
@@ -735,50 +842,55 @@ extension ViewController: ARSessionDelegate {
 extension ViewController : MCSessionDelegate, MCBrowserViewControllerDelegate {
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
-        print("New Packet: \(packet)")
-        DispatchQueue.main.async {
-            switch packet.comand {
-            case .touch: self.pointerTouched()
-            case .setPlaceMode: self.editMode = .placeMode; self.showMessage("Place Mode")
-            case .setMoveMode: self.editMode = .moveMode; self.showMessage("Move Mode")
-            case .setEditMode: self.editMode = .editSettingsMode; self.showMessage("Edit Mode")
-            case .setCircuitMode: self.editMode = .circuitMode; self.showMessage("Circuit Mode")
-            case .andObject:
-                self.selectedType = ValvolaAnd.self
-                self.showMessage("AND", color: .blue)
-            case .orObject:
-                self.selectedType = ValvolaOR.self
-                self.showMessage("OR", color: .blue)
-            case .pulsanteObject:
-                self.selectedType = Pulsante.self
-                self.showMessage("Pulsante", color: .blue)
-            case .treDueMSObject:
-                self.selectedType = TreDueMonostabileNC.self
-                self.showMessage("3/2 MS", color: .blue)
-            case .treDueBSObject:
-                self.selectedType = TreDueBistabile.self
-                self.showMessage("3/2 BS", color: .blue)
-            case .cinqueDueMSObject:
-                self.selectedType = CinqueDueMonostabile.self
-                self.showMessage("5/2 MS", color: .blue)
-            case .cinqueDueBSObject:
-                self.selectedType = CinqueDueBistabile.self
-                self.showMessage("5/2 BS", color: .blue)
-            case .timerObject:
-                self.selectedType = TimerObject.self
-                self.showMessage("Timer", color: .blue)
-            case .frlObject:
-                self.selectedType = GruppoFRL.self
-                self.showMessage("FRL", color: .blue)
-            case .cilindroObject:
-                self.selectedType = CilindroDoppioEffetto.self
-                self.showMessage("Cilindro DE", color: .blue)
-            case .finecorsaObject:
-                self.selectedType = Finecorsa.self
-                self.showMessage("Finecorsa", color: .blue)
+        
+        if session == self.mcSession {
+            guard let packet = try? JSONDecoder().decode(Packet.self, from: data) else { return }
+            print("New Packet: \(packet)")
+            DispatchQueue.main.async {
+                switch packet.comand {
+                case .touch: self.pointerTouched()
+                case .setPlaceMode: self.editMode = .placeMode; self.showMessage("Place Mode")
+                case .setMoveMode: self.editMode = .moveMode; self.showMessage("Move Mode")
+                case .setEditMode: self.editMode = .editSettingsMode; self.showMessage("Edit Mode")
+                case .setCircuitMode: self.editMode = .circuitMode; self.showMessage("Circuit Mode")
+                case .andObject:
+                    self.selectedType = ValvolaAnd.self
+                    self.showMessage("AND", color: .blue)
+                case .orObject:
+                    self.selectedType = ValvolaOR.self
+                    self.showMessage("OR", color: .blue)
+                case .pulsanteObject:
+                    self.selectedType = Pulsante.self
+                    self.showMessage("Pulsante", color: .blue)
+                case .treDueMSObject:
+                    self.selectedType = TreDueMonostabileNC.self
+                    self.showMessage("3/2 MS", color: .blue)
+                case .treDueBSObject:
+                    self.selectedType = TreDueBistabile.self
+                    self.showMessage("3/2 BS", color: .blue)
+                case .cinqueDueMSObject:
+                    self.selectedType = CinqueDueMonostabile.self
+                    self.showMessage("5/2 MS", color: .blue)
+                case .cinqueDueBSObject:
+                    self.selectedType = CinqueDueBistabile.self
+                    self.showMessage("5/2 BS", color: .blue)
+                case .timerObject:
+                    self.selectedType = TimerObject.self
+                    self.showMessage("Timer", color: .blue)
+                case .frlObject:
+                    self.selectedType = GruppoFRL.self
+                    self.showMessage("FRL", color: .blue)
+                case .cilindroObject:
+                    self.selectedType = CilindroDoppioEffetto.self
+                    self.showMessage("Cilindro DE", color: .blue)
+                case .finecorsaObject:
+                    self.selectedType = Finecorsa.self
+                    self.showMessage("Finecorsa", color: .blue)
+                }
             }
         }
+        
+        
     }
     
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {

@@ -71,5 +71,9 @@ class Finecorsa: ValvolaConformance, AcceptsMovableInput, Editable {
         }
     }
     
+    var objectType: ObjectType {
+        return .finecorsa
+    }
+    
 }
 

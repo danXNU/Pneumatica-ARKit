@@ -52,6 +52,8 @@
 		DBC15C1022A2E12200047731 /* air.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C0F22A2E12200047731 /* air.m4a */; };
 		DBC15C1322A2FA8C00047731 /* buttonOn.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C1122A2FA8C00047731 /* buttonOn.m4a */; };
 		DBC15C1422A2FA8C00047731 /* buttonOff.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DBC15C1222A2FA8C00047731 /* buttonOff.m4a */; };
+		DBDBB69122AC3733008D25AE /* MPHostSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBB69022AC3733008D25AE /* MPHostSession.swift */; };
+		DBDBB69322AC405A008D25AE /* MPClientSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBB69222AC405A008D25AE /* MPClientSession.swift */; };
 		DBE5F45D22A3B3E6001FD2E2 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE5F45C22A3B3E6001FD2E2 /* Converter.swift */; };
 		DBE5F46622A3B43F001FD2E2 /* SpriteDiskObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBE5F46322A3B43F001FD2E2 /* SpriteDiskObjects.swift */; };
 /* End PBXBuildFile section */
@@ -106,6 +108,8 @@
 		DBC15C0F22A2E12200047731 /* air.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = air.m4a; sourceTree = "<group>"; };
 		DBC15C1122A2FA8C00047731 /* buttonOn.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = buttonOn.m4a; sourceTree = "<group>"; };
 		DBC15C1222A2FA8C00047731 /* buttonOff.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = buttonOff.m4a; sourceTree = "<group>"; };
+		DBDBB69022AC3733008D25AE /* MPHostSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPHostSession.swift; sourceTree = "<group>"; };
+		DBDBB69222AC405A008D25AE /* MPClientSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPClientSession.swift; sourceTree = "<group>"; };
 		DBE5F45C22A3B3E6001FD2E2 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		DBE5F46322A3B43F001FD2E2 /* SpriteDiskObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteDiskObjects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -181,6 +185,8 @@
 				DB9DD68A2270871700EF7EC8 /* ViewController.swift */,
 				DB624DEF229083DA0069C25F /* EditsMode.swift */,
 				DB624DF1229085C30069C25F /* Packets.swift */,
+				DBDBB69022AC3733008D25AE /* MPHostSession.swift */,
+				DBDBB69222AC405A008D25AE /* MPClientSession.swift */,
 			);
 			path = "Pneumatica-ARKit";
 			sourceTree = "<group>";
@@ -388,6 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBDBB69322AC405A008D25AE /* MPClientSession.swift in Sources */,
 				DBB7932F22708ACA007EB614 /* PressableInput.swift in Sources */,
 				DB83719E2270C4520051F701 /* BoldCell.swift in Sources */,
 				DBE5F45D22A3B3E6001FD2E2 /* Converter.swift in Sources */,
@@ -404,6 +411,7 @@
 				DBB7932922708ACA007EB614 /* TreDueBistabile.swift in Sources */,
 				DB624DF0229083DA0069C25F /* EditsMode.swift in Sources */,
 				DBB7933722708B57007EB614 /* Plane.swift in Sources */,
+				DBDBB69122AC3733008D25AE /* MPHostSession.swift in Sources */,
 				DBB7933022708ACA007EB614 /* InputOutput.swift in Sources */,
 				DB8371A42270C48D0051F701 /* CreationObjectDataSource.swift in Sources */,
 				DBA7393F2271C60D001BF29E /* DiskObjects.swift in Sources */,

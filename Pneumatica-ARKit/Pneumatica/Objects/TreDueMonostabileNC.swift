@@ -63,5 +63,9 @@ class TreDueMonostabileNC: ValvolaConformance {
             self.state = .chiusa
         }
     }
+ 
+    var objectType: ObjectType {
+        return .treDueMS
+    }
     
 }

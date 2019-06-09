@@ -18,6 +18,12 @@ enum EditMode {
     case load2DMode
 }
 
+enum MPMode {
+    case host
+    case client
+    case none
+}
+
 enum HandsMode {
     case normal
     case handsFree

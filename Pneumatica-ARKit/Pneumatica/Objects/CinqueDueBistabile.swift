@@ -87,4 +87,8 @@ class CinqueDueBistabile: ValvolaConformance {
         }
     }
  
+    
+    var objectType: ObjectType {
+        return .cinqueDueBS
+    }
 }

@@ -36,4 +36,8 @@ class GruppoFRL: ValvolaConformance {
         onlyOutput.ariaPressure = 2.0
     }
     
+    
+    var objectType: ObjectType {
+        return .frl
+    }
 }
