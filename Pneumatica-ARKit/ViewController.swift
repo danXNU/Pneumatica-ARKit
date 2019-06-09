@@ -198,10 +198,14 @@ class ViewController: UIViewController {
         }
         needToRedraw = true
     }
+
     
     @IBAction func rotationSliderMoved(_ sender: UISlider) {
         if let valvola = selectedValvola {
             valvola.objectNode.eulerAngles.y = sender.value.degreesToRadians
+            
+            sendRotateCommand(valvola)
+            
         } else {
             for valvola in self.virtualObjects {
                 valvola.objectNode.eulerAngles.y = sender.value.degreesToRadians
@@ -522,6 +526,13 @@ class ViewController: UIViewController {
                 }
             }
             else if let command = try? JSONDecoder().decode(RotateCommand.self, from: data) {
+                let valvola = virtualObjects.first(where: { $0.id == command.objectID })
+                valvola?.objectNode.eulerAngles = SCNVector3(cvector: command.newEulerAngles)
+            }
+            else if let command = try? JSONDecoder().decode(RotateAllCommand.self, from: data) {
+                
+            }
+            else if let command = try? JSONDecoder().decode(MoveZAllCommand.self, from: data) {
                 
             }
             else if let command = try? JSONDecoder().decode(AddWireCommand.self, from: data) {
@@ -768,6 +779,15 @@ class ViewController: UIViewController {
         let moveCommand = MoveCommand(objectID: valvola.id,
                                       newPosition: Vector3(vector: location))
         if let data = CustomEncoder.encode(object: moveCommand) {
+            self.mpHostSession?.sendToAllPeers(data)
+            self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
+    
+    fileprivate func sendRotateCommand(_ valvola: ValvolaConformance) {
+        let command = RotateCommand(objectID: valvola.id,
+                                    newEulerAngles: Vector3(vector: valvola.objectNode.eulerAngles))
+        if let data = CustomEncoder.encode(object: command) {
             self.mpHostSession?.sendToAllPeers(data)
             self.mpClientSession?.sendToAllPeers(data)
         }

@@ -115,8 +115,20 @@ struct MoveCommand: Codable {
     var newPosition: Vector3
 }
 
+enum ZMovement: Int, Codable {
+    case minus = 0
+    case plus = 1
+}
+struct MoveZAllCommand: Codable {
+    var movement: ZMovement
+}
+
 struct RotateCommand: Codable {
-    var objectIDs: [UUID]
+    var objectID: UUID
+    var newEulerAngles: Vector3
+}
+
+struct RotateAllCommand: Codable {
     var newEulerAngles: Vector3
 }
 
