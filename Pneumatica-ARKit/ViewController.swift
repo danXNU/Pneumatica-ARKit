@@ -266,6 +266,7 @@ class ViewController: UIViewController {
     // MARK: - Touches functions
     
     var removingObject : ValvolaConformance?
+    
     @objc func didHold(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state != .began { return }
         let touchLocation = gestureRecognizer.location(in: self.view)
@@ -276,6 +277,8 @@ class ViewController: UIViewController {
             if let res = hitResults.first, let selectedObject = getValvola(from: res.node) {
                 if removingObject?.objectNode == selectedObject.objectNode { break }
                 removeObject(selectedObject)
+                
+                sendRemoveCommand(selectedObject)
                 
             } else {
                 showTableView()
@@ -514,7 +517,8 @@ class ViewController: UIViewController {
                 
             }
             else if let command = try? JSONDecoder().decode(RemoveCommand.self, from: data) {
-                
+                let valvole = virtualObjects.filter { command.objectIDs.contains($0.id) }
+                valvole.forEach { removeObject( $0 ) }
             }
             else {
                     print("unknown data recieved from \(peer)")
@@ -687,6 +691,15 @@ class ViewController: UIViewController {
             mpClientSession?.sendToAllPeers(data)
         }
     }
+    
+    fileprivate func sendRemoveCommand(_ selectedObject: ValvolaConformance) {
+        let command = RemoveCommand(objectIDs: [selectedObject.id],
+                                    removeCommand: "remove-command")
+        if let data = CustomEncoder.encode(object: command) {
+            self.mpHostSession?.sendToAllPeers(data)
+            self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
 }
 
 extension ViewController: ARSCNViewDelegate {
@@ -746,16 +759,19 @@ extension ViewController: ARSessionDelegate {
         // Place content only for anchors found by plane detection.
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        if !self.planeIsAdded {
+        if !self.planeIsAdded && self.mpMode != .client {
             let plane = SCNPlane(width: 3, height: 4)
             let texture = #imageLiteral(resourceName: "dark")
             plane.firstMaterial?.diffuse.contents = texture
-            //        plane.firstMaterial?.transparency = 0.5
+            plane.firstMaterial?.transparency = 0.5
+            
             let newNode = SCNNode(geometry: plane)
             newNode.name = "background-plane"
+            
             let transform = SCNMatrix4.init(planeAnchor.transform)
             let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
             newNode.position = hitPositionVector
+            
             sceneView.scene.rootNode.addChildNode(newNode)
         }
         
