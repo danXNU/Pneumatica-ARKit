@@ -170,6 +170,7 @@ class ViewController: UIViewController {
             for valvola in self.virtualObjects {
                 valvola.objectNode.scale = SCNVector3(value, value, value)
             }
+            sendScaleAllCommand(scale: SCNVector3(value, value, value))
         }
     }
     
@@ -488,8 +489,6 @@ class ViewController: UIViewController {
     // MARK: - Generic functions
     
     func receivedData(_ data: Data, from peer: MCPeerID) {
-        
-        
             if let worldMap = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ARWorldMap.self, from: data) {
                 // Run the session with the received world map.
                 let configuration = ARWorldTrackingConfiguration()
@@ -572,6 +571,11 @@ class ViewController: UIViewController {
                 guard let secondIO = secondIOs.first(where: { $0.idNumber == secondObject.ioID }) else { return }
                 
                 removeLine(from: firstIO, to: secondIO)
+            }
+            else if let command = try? JSONDecoder().decode(ScaleAllCommand.self, from: data) {
+                for valvola in virtualObjects {
+                    valvola.objectNode.scale = SCNVector3(cvector: command.newScale)
+                }
             }
             else if let command = try? JSONDecoder().decode(RemoveCommand.self, from: data) {
                 let valvole = virtualObjects.filter { command.objectIDs.contains($0.id) }
@@ -813,6 +817,14 @@ class ViewController: UIViewController {
     
     fileprivate func sendMoveZAllCommand(type: ZMovement) {
         let command = MoveZAllCommand(movement: type)
+        if let data = CustomEncoder.encode(object: command) {
+            self.mpHostSession?.sendToAllPeers(data)
+            self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
+    
+    fileprivate func sendScaleAllCommand(scale: SCNVector3) {
+        let command = ScaleAllCommand(newScale: Vector3(vector: scale))
         if let data = CustomEncoder.encode(object: command) {
             self.mpHostSession?.sendToAllPeers(data)
             self.mpClientSession?.sendToAllPeers(data)

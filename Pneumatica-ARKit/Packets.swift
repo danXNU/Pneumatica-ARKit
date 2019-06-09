@@ -123,6 +123,14 @@ struct MoveZAllCommand: Codable {
     var movement: ZMovement
 }
 
+enum ScaleState: Int, Codable {
+    case bigger = 0
+    case smaller = 1
+}
+struct ScaleAllCommand: Codable {
+    var newScale : Vector3
+}
+
 struct RotateCommand: Codable {
     var objectID: UUID
     var newEulerAngles: Vector3
