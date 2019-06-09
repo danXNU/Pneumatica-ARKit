@@ -119,12 +119,24 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(holdGesture)
         
         pointerView = PointerView(frame: .init(origin: .zero, size: .init(width: 50, height: 50)))
+        pointerView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(pointerView)
         pointerView.center = self.view.center
         
         setUpConnectivity()
         
         airSoundPlayer.prepareToPlay()
+        self.pointerView?.isHidden = handsMode != .handsFree
+    }
+
+    override func viewDidLayoutSubviews() {
+        [
+            pointerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pointerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            pointerView.heightAnchor.constraint(equalToConstant: 50),
+            pointerView.widthAnchor.constraint(equalToConstant: 50)
+        ].forEach { $0.isActive = true }
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -273,7 +285,19 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func resetTracking(_ sender: UIButton) {
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .vertical
+        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+    }
     
+    @IBAction func featurePointsToggle(_ sender: UISwitch) {
+        sceneView.debugOptions = sender.isOn ? [.showFeaturePoints] : []
+    }
+    @IBAction func planeHiddenToggle(_ sender: UISwitch) {
+        guard let planeNode = sceneView.scene.rootNode.childNode(withName: "background-plane", recursively: true) else { return }
+        planeNode.geometry?.firstMaterial?.transparency = (sender.isOn) ? 1 : 0
+    }
     // MARK: - Touches functions
     
     var removingObject : ValvolaConformance?
@@ -335,7 +359,8 @@ class ViewController: UIViewController {
             let result = sceneView.hitTest(touchLocation, types: ARHitTestResult.ResultType.existingPlane)
             if let hitResult = result.last {
                 let transform = SCNMatrix4.init(hitResult.worldTransform)
-                let hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+                var hitPositionVector = SCNVector3Make(transform.m41, transform.m42, transform.m43)
+                hitPositionVector.z += 0.25
                 
                 if let type = self.selectedType, let valvola = type.init() {
                     self.virtualObjects.append(valvola)
@@ -892,9 +917,9 @@ extension ViewController: ARSessionDelegate {
         
         if !self.planeIsAdded && self.mpMode != .client {
             let plane = SCNPlane(width: 3, height: 4)
-            let texture = #imageLiteral(resourceName: "dark")
-            plane.firstMaterial?.diffuse.contents = texture
-            plane.firstMaterial?.transparency = 0.5
+//            let texture = #imageLiteral(resourceName: "dark")
+            plane.firstMaterial?.diffuse.contents = UIColor.black
+            plane.firstMaterial?.transparency = 1
             
             let newNode = SCNNode(geometry: plane)
             newNode.name = "background-plane"
