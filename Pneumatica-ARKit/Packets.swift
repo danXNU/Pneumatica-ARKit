@@ -132,6 +132,16 @@ struct AddCommand: Codable {
     var eulerAngles: Vector3
 }
 
+struct MPWireObject: Codable {
+    var objectID: UUID
+    var ioID: Int
+}
+
+struct AddWireCommand: Codable {
+    var firstObject: MPWireObject
+    var secondObject: MPWireObject
+}
+
 class CustomEncoder {
     class func encode<T:Encodable>(object: T) -> Data? {
         if let data = try? JSONEncoder().encode(object) { return data }

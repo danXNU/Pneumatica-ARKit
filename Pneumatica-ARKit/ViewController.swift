@@ -367,6 +367,10 @@ class ViewController: UIViewController {
                         removeLine(from: firstIO, to: secondIO)
                     } else {
                         createLine(from: firstIO, to: secondIO)
+                        
+                        
+                        sendAddWireCommand(firstIO, secondIO)
+                        
                     }
                     firstSelectedIO = nil
                     secondSelectedIO = nil
@@ -516,12 +520,26 @@ class ViewController: UIViewController {
             else if let command = try? JSONDecoder().decode(RotateCommand.self, from: data) {
                 
             }
+            else if let command = try? JSONDecoder().decode(AddWireCommand.self, from: data) {
+                let firstObject = command.firstObject
+                let secondObject = command.secondObject
+                
+                guard let firstValvola = virtualObjects.first(where: { $0.id == firstObject.objectID }) else { return }
+                guard let secondValvola = virtualObjects.first(where: { $0.id == secondObject.objectID }) else { return }
+                
+                let firstIOs = firstValvola.ios.compactMap { $0 as? InputOutput }
+                let secondIOs = secondValvola.ios.compactMap { $0 as? InputOutput }
+                guard let firstIO = firstIOs.first(where: { $0.idNumber == firstObject.ioID }) else { return }
+                guard let secondIO = secondIOs.first(where: { $0.idNumber == secondObject.ioID }) else { return }
+
+                createLine(from: firstIO, to: secondIO)
+            }
             else if let command = try? JSONDecoder().decode(RemoveCommand.self, from: data) {
                 let valvole = virtualObjects.filter { command.objectIDs.contains($0.id) }
                 valvole.forEach { removeObject( $0 ) }
             }
             else {
-                    print("unknown data recieved from \(peer)")
+                print("unknown data recieved from \(peer)")
             }
         
     }
@@ -698,6 +716,19 @@ class ViewController: UIViewController {
         if let data = CustomEncoder.encode(object: command) {
             self.mpHostSession?.sendToAllPeers(data)
             self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
+    
+    fileprivate func sendAddWireCommand(_ firstIO: InputOutput, _ secondIO: InputOutput) {
+        let firstObject = MPWireObject(objectID: firstIO.parentValvola.id,
+                                       ioID: firstIO.idNumber)
+        let secondObject = MPWireObject(objectID: secondIO.parentValvola.id,
+                                        ioID: secondIO.idNumber)
+        let command = AddWireCommand(firstObject: firstObject,
+                                     secondObject: secondObject)
+        if let data = CustomEncoder.encode(object: command) {
+            mpHostSession?.sendToAllPeers(data)
+            mpClientSession?.sendToAllPeers(data)
         }
     }
 }
