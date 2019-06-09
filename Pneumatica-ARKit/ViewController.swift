@@ -182,6 +182,7 @@ class ViewController: UIViewController {
                 let node = valvola.objectNode
                 node.position.z += 0.1
             }
+            sendMoveZAllCommand(type: .plus)
         }
         needToRedraw = true
     }
@@ -195,6 +196,7 @@ class ViewController: UIViewController {
                 let node = valvola.objectNode
                 node.position.z -= 0.1
             }
+            sendMoveZAllCommand(type: .minus)
         }
         needToRedraw = true
     }
@@ -539,7 +541,9 @@ class ViewController: UIViewController {
                 }
             }
             else if let command = try? JSONDecoder().decode(MoveZAllCommand.self, from: data) {
-                
+                for valvola in self.virtualObjects {
+                    valvola.objectNode.position.z +=  (command.movement == .plus) ? 0.1 : -0.1
+                }
             }
             else if let command = try? JSONDecoder().decode(AddWireCommand.self, from: data) {
                 let firstObject = command.firstObject
@@ -801,6 +805,14 @@ class ViewController: UIViewController {
     
     fileprivate func sendRotateAllCommand(eulerAngles: SCNVector3) {
         let command = RotateAllCommand(newEulerAngles: Vector3(vector: eulerAngles))
+        if let data = CustomEncoder.encode(object: command) {
+            self.mpHostSession?.sendToAllPeers(data)
+            self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
+    
+    fileprivate func sendMoveZAllCommand(type: ZMovement) {
+        let command = MoveZAllCommand(movement: type)
         if let data = CustomEncoder.encode(object: command) {
             self.mpHostSession?.sendToAllPeers(data)
             self.mpClientSession?.sendToAllPeers(data)
