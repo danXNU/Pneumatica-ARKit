@@ -312,6 +312,7 @@ class ViewController: UIViewController {
                 
                 positionVector.z = currValvola.objectNode.position.z
                 move(valvola: currValvola, at: positionVector)
+                sendMoveCommand(currValvola, positionVector)
                 self.selectedValvola = nil
             } else {
                 let results = sceneView.hitTest(touchLocation, options: nil)
@@ -365,12 +366,12 @@ class ViewController: UIViewController {
                 if let firstIO = firstSelectedIO, let secondIO = secondSelectedIO {
                     if firstIO.inputsConnected.contains(secondIO) && secondIO.inputsConnected.contains(firstIO) {
                         removeLine(from: firstIO, to: secondIO)
+                        
+                        sendRemoveWireCommand(firstIO, secondIO)
                     } else {
                         createLine(from: firstIO, to: secondIO)
                         
-                        
                         sendAddWireCommand(firstIO, secondIO)
-                        
                     }
                     firstSelectedIO = nil
                     secondSelectedIO = nil
@@ -466,6 +467,7 @@ class ViewController: UIViewController {
                 if let selectedVal = selectedValvola {
                     positionVector.z = selectedVal.objectNode.position.z
                     move(valvola: selectedVal, at: positionVector)
+                    sendMoveCommand(selectedVal, positionVector)
                 }
             }
         default:
@@ -515,7 +517,9 @@ class ViewController: UIViewController {
                 }
             }
             else if let command = try? JSONDecoder().decode(MoveCommand.self, from: data) {
-                
+                if let valvola = virtualObjects.first(where: { $0.id == command.objectID }) {
+                    move(valvola: valvola, at: SCNVector3(cvector: command.newPosition))
+                }
             }
             else if let command = try? JSONDecoder().decode(RotateCommand.self, from: data) {
                 
@@ -533,6 +537,20 @@ class ViewController: UIViewController {
                 guard let secondIO = secondIOs.first(where: { $0.idNumber == secondObject.ioID }) else { return }
 
                 createLine(from: firstIO, to: secondIO)
+            }
+            else if let command = try? JSONDecoder().decode(RemoveWireCommand.self, from: data) {
+                let firstObject = command.firstObject
+                let secondObject = command.secondObject
+                
+                guard let firstValvola = virtualObjects.first(where: { $0.id == firstObject.objectID }) else { return }
+                guard let secondValvola = virtualObjects.first(where: { $0.id == secondObject.objectID }) else { return }
+                
+                let firstIOs = firstValvola.ios.compactMap { $0 as? InputOutput }
+                let secondIOs = secondValvola.ios.compactMap { $0 as? InputOutput }
+                guard let firstIO = firstIOs.first(where: { $0.idNumber == firstObject.ioID }) else { return }
+                guard let secondIO = secondIOs.first(where: { $0.idNumber == secondObject.ioID }) else { return }
+                
+                removeLine(from: firstIO, to: secondIO)
             }
             else if let command = try? JSONDecoder().decode(RemoveCommand.self, from: data) {
                 let valvole = virtualObjects.filter { command.objectIDs.contains($0.id) }
@@ -588,7 +606,8 @@ class ViewController: UIViewController {
     }
     
     func move(valvola: ValvolaConformance, at location: SCNVector3) {
-        valvola.objectNode.position = location
+        let action = SCNAction.move(to: location, duration: 0.3)
+        valvola.objectNode.runAction(action)
         needToRedraw = true
     }
     
@@ -731,20 +750,43 @@ class ViewController: UIViewController {
             mpClientSession?.sendToAllPeers(data)
         }
     }
+    
+    fileprivate func sendRemoveWireCommand(_ firstIO: InputOutput, _ secondIO: InputOutput) {
+        let firstObject = MPWireObject(objectID: firstIO.parentValvola.id,
+                                       ioID: firstIO.idNumber)
+        let secondObject = MPWireObject(objectID: secondIO.parentValvola.id,
+                                        ioID: secondIO.idNumber)
+        let command = RemoveWireCommand(firstObject: firstObject,
+                                     secondObject: secondObject)
+        if let data = CustomEncoder.encode(object: command) {
+            mpHostSession?.sendToAllPeers(data)
+            mpClientSession?.sendToAllPeers(data)
+        }
+    }
+    
+    fileprivate func sendMoveCommand(_ valvola: ValvolaConformance, _ location: SCNVector3) {
+        let moveCommand = MoveCommand(objectID: valvola.id,
+                                      newPosition: Vector3(vector: location))
+        if let data = CustomEncoder.encode(object: moveCommand) {
+            self.mpHostSession?.sendToAllPeers(data)
+            self.mpClientSession?.sendToAllPeers(data)
+        }
+    }
 }
 
 extension ViewController: ARSCNViewDelegate {
 
     // MARK: - Circuit logic
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if editMode != .circuitMode { return }
-        for object in self.virtualObjects {
-            object.ios.forEach { $0.update() }
-            object.update()
-        }
-        
-        for line in self.lines {
-            line.update()
+        if editMode == .circuitMode {
+            for object in self.virtualObjects {
+                object.ios.forEach { $0.update() }
+                object.update()
+            }
+            
+            for line in self.lines {
+                line.update()
+            }
         }
         
         if needToRedraw {

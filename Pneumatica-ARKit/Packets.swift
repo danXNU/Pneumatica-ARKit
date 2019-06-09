@@ -142,6 +142,11 @@ struct AddWireCommand: Codable {
     var secondObject: MPWireObject
 }
 
+struct RemoveWireCommand: Codable {
+    var firstObject: MPWireObject
+    var secondObject: MPWireObject
+}
+
 class CustomEncoder {
     class func encode<T:Encodable>(object: T) -> Data? {
         if let data = try? JSONEncoder().encode(object) { return data }
