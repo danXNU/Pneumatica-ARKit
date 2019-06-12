@@ -84,12 +84,22 @@ class CilindroDoppioEffetto : ValvolaConformance, Movable {
             if inputLeft.ariaPressure > 0 && inputRight.ariaPressure <= 0 {
                 self.pistone?.runAction(pistonAction)
                 self.state = .fuoriuscito
+                
+//                if self.enterSoundPlayer.isPlaying {
+//                    self.enterSoundPlayer.pause()
+//                    self.enterSoundPlayer.currentTime = 0.0
+//                }
                 self.exitSoundPlayer.play()
             }
         case .fuoriuscito:
             if inputRight.ariaPressure > 0 && inputLeft.ariaPressure <= 0 {
                 self.pistone.runAction(pistonAction.reversed())
                 self.state = .interno
+                
+//                if self.exitSoundPlayer.isPlaying {
+//                    self.exitSoundPlayer.pause()
+//                    self.exitSoundPlayer.currentTime = 0.0
+//                }
                 self.enterSoundPlayer.play()
             }
         case .animating: break // da fare in futuro se necessario
