@@ -180,6 +180,16 @@
                                     <action selector="planeHiddenToggle:" destination="BV1-FR-VrT" eventType="valueChanged" id="TSo-hP-iDS"/>
                                 </connections>
                             </switch>
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4pB-R1-GnY">
+                                <rect key="frame" x="10" y="216" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="0M1-LA-J2K"/>
+                                    <constraint firstAttribute="width" constant="47" id="sGo-pN-YYl"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="vrModeToggle:" destination="BV1-FR-VrT" eventType="valueChanged" id="79h-h3-zhz"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -187,6 +197,7 @@
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="leading" secondItem="5uh-cg-ymX" secondAttribute="trailing" constant="27" id="6rv-4B-c2F"/>
                             <constraint firstItem="ETE-qI-xcs" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="9uq-3F-cU6"/>
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="centerX" secondItem="BrB-h1-WRS" secondAttribute="centerX" id="BVb-F3-MGN"/>
+                            <constraint firstItem="4pB-R1-GnY" firstAttribute="top" secondItem="jJg-cA-dFF" secondAttribute="bottom" constant="21" id="Cu5-FN-jlj"/>
                             <constraint firstItem="xgM-1x-3TG" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" id="DcW-Lg-Bgs"/>
                             <constraint firstItem="sQF-fw-oYa" firstAttribute="top" secondItem="PEb-aB-FaV" secondAttribute="bottom" constant="44" id="Dlh-5T-oaL"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
@@ -211,6 +222,7 @@
                             <constraint firstItem="PEb-aB-FaV" firstAttribute="top" secondItem="r4S-kL-Ugp" secondAttribute="bottom" constant="37" id="gCU-iI-zMa"/>
                             <constraint firstItem="tAa-Qk-JpK" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="22" id="gXb-ow-AlA"/>
                             <constraint firstItem="jJg-cA-dFF" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="10" id="h1O-eT-3L5"/>
+                            <constraint firstItem="4pB-R1-GnY" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="10" id="hI8-l5-zlJ"/>
                             <constraint firstItem="sQF-fw-oYa" firstAttribute="top" secondItem="5uh-cg-ymX" secondAttribute="bottom" constant="35" id="ivz-Cs-2iH"/>
                             <constraint firstItem="r4S-kL-Ugp" firstAttribute="top" secondItem="ETE-qI-xcs" secondAttribute="bottom" constant="8" id="jmV-7k-1wi"/>
                             <constraint firstItem="B6a-LI-9Bt" firstAttribute="top" secondItem="xgM-1x-3TG" secondAttribute="bottom" constant="3" id="oGR-Gg-x5u"/>

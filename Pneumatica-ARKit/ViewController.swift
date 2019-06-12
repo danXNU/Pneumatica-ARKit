@@ -129,14 +129,36 @@ class ViewController: UIViewController {
         self.pointerView?.isHidden = handsMode != .handsFree
     }
 
+    var allConstraints: [NSLayoutConstraint] = []
     override func viewDidLayoutSubviews() {
-        [
-            pointerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pointerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            pointerView.heightAnchor.constraint(equalToConstant: 50),
-            pointerView.widthAnchor.constraint(equalToConstant: 50)
-        ].forEach { $0.isActive = true }
+        allConstraints.forEach { $0.isActive = false }
         
+        if  handsMode == .handsFree {
+            allConstraints.removeAll()
+            
+            let newConstraints = [
+                pointerView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: view.frame.width / 2 / 2),
+                pointerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                pointerView.heightAnchor.constraint(equalToConstant: 50),
+                pointerView.widthAnchor.constraint(equalToConstant: 50)
+            ]
+            
+            allConstraints = newConstraints
+            
+            
+        } else {
+            allConstraints.removeAll()
+            
+            allConstraints = [
+                pointerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                pointerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                pointerView.heightAnchor.constraint(equalToConstant: 50),
+                pointerView.widthAnchor.constraint(equalToConstant: 50)
+                ]
+        }
+        
+        
+        allConstraints.forEach { $0.isActive = true }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -298,6 +320,14 @@ class ViewController: UIViewController {
         guard let planeNode = sceneView.scene.rootNode.childNode(withName: "background-plane", recursively: true) else { return }
         planeNode.geometry?.firstMaterial?.transparency = (sender.isOn) ? 1 : 0
     }
+    
+    
+    var isHeadModeActive: Bool = false
+    @IBAction func vrModeToggle(_ sender: UISwitch) {
+        isHeadModeActive = sender.isOn
+    }
+    
+    
     // MARK: - Touches functions
     
     var removingObject : ValvolaConformance?
@@ -919,7 +949,7 @@ extension ViewController: ARSessionDelegate {
             let plane = SCNPlane(width: 3, height: 4)
 //            let texture = #imageLiteral(resourceName: "dark")
             plane.firstMaterial?.diffuse.contents = UIColor.black
-            plane.firstMaterial?.transparency = 1
+            plane.firstMaterial?.transparency = 0.75
             
             let newNode = SCNNode(geometry: plane)
             newNode.name = "background-plane"
